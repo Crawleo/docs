@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "willow",
   "name": "Crawleo",
   "colors": {
     "primary": "#7B3FE4",
@@ -80,7 +80,11 @@
       }
     ]
   },
-  "logo": "/images/crawleo_logo.svg",
+  "logo": {
+    "light": "/images/crawleo_logo.svg",
+    "dark": "/images/crawleo_logo.svg",
+    "href": "https://www.crawleo.dev/"
+  },
   "navbar": {
     "links": [
       {
