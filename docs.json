@@ -12,8 +12,12 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Crawleo Homepage",
-          "icon": "code",
+          "anchor": "Homepage",
+          "icon": "house-window",
+          "color": {
+            "light": "#d51c22",
+            "dark": "#d51c22"
+          },
           "href": "https://www.crawleo.dev/"
         },
         {
@@ -81,8 +85,8 @@
     ]
   },
   "logo": {
-    "light": "/images/crawleo_logo.svg",
-    "dark": "/images/crawleo_logo.svg",
+    "light": "/images/crawleo_logo.jpeg",
+    "dark": "/images/crawleo_logo.jpeg",
     "href": "https://www.crawleo.dev/"
   },
   "navbar": {
