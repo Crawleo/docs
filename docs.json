@@ -3,12 +3,27 @@
   "theme": "mint",
   "name": "Mint Starter Kit",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#7B3FE4",
+    "light": "#6EE7F9",
+    "dark": "#D946EF"
   },
+
   "favicon": "/favicon.svg",
   "navigation": {
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Documentation",
+          "icon": "book-open-cover",
+          "href": "https://mintlify.com/docs"
+        },
+        {
+          "anchor": "Blog",
+          "icon": "newspaper",
+          "href": "https://www.crawleo.dev/blog"
+        }
+      ]
+    },
     "tabs": [
       {
         "tab": "Guides",
@@ -67,31 +82,14 @@
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
   },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
+  "logo": "/images/crawleo_logo-512x512.jpeg",
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@crawleo.dev"
       }
     ],
     "primary": {
@@ -114,9 +112,18 @@
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/crawleo_dev",
+      "github": "https://github.com/crawleo",
+      "linkedin": "https://www.linkedin.com/company/crawleo",
+      "website": "https://www.crawleo.dev/"
+    }
+  },
+  "appearance": {
+    "default": "dark"
+  },
+  "integrations": {
+    "ga4": {
+      "measurementId": "G-C6D6TPHNKL"
     }
   }
 }
