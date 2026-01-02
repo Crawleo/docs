@@ -7,7 +7,7 @@
     "light": "#6EE7F9",
     "dark": "#D946EF"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/images/favicon.ico",
   "navigation": {
     "global": {
       "anchors": [
@@ -123,6 +123,10 @@
     }
   },
   "api": {
-    "baseUrl": "https://api.crawleo.dev/api/v1"
-  }
+    "baseUrl": "https://api.crawleo.dev/api/v1",
+    "playground": {
+      "display": "interactive"
+    }
+  },
+  "description": "The powerful API to search and crawl any website, bypassing advanced protections. Get clean, structured, AI-ready data with a strict zero-retention policy."
 }
