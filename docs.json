@@ -5,7 +5,7 @@
   "colors": {
     "primary": "#7B3FE4",
     "light": "#6EE7F9",
-    "dark": "#D946EF"
+    "dark": "#8c2e9b"
   },
   "favicon": "/images/favicon.ico",
   "navigation": {
@@ -80,7 +80,7 @@
       }
     ]
   },
-  "logo": "/images/crawleo_logo-512x512.jpeg",
+  "logo": "/images/crawleo_logo.svg",
   "navbar": {
     "links": [
       {
