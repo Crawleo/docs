@@ -12,9 +12,9 @@
     "global": {
       "anchors": [
         {
-          "anchor": "API Reference",
+          "anchor": "Crawleo Homepage",
           "icon": "code",
-          "href": "/api-reference/introduction"
+          "href": "https://www.crawleo.dev/"
         },
         {
           "anchor": "Blog",
