@@ -1,0 +1,245 @@
+---
+title: "LangChain Integration"
+description: "Use Crawleo with LangChain for AI applications"
+icon: "link"
+---
+
+## Overview
+
+Crawleo provides a dedicated LangChain integration package that makes it easy to use Crawleo's web search and crawling capabilities in your LangChain applications.
+
+## Installation
+
+Install the `langchain-crawleo` package:
+
+```bash
+pip install langchain-crawleo
+```
+
+## Available Tools
+
+The package provides two LangChain tools:
+
+<CardGroup cols={2}>
+  <Card title="CrawleoSearch" icon="magnifying-glass">
+    Web search tool powered by Crawleo's Search API.
+  </Card>
+  <Card title="CrawleoCrawler" icon="spider-web">
+    URL crawling tool powered by Crawleo's Crawler API.
+  </Card>
+</CardGroup>
+
+## Quick Start
+
+### Basic Setup
+
+```python
+from langchain_crawleo import CrawleoSearch, CrawleoCrawler
+
+# Initialize tools with your API key
+search_tool = CrawleoSearch(api_key="YOUR_API_KEY")
+crawler_tool = CrawleoCrawler(api_key="YOUR_API_KEY")
+```
+
+### Using Environment Variables
+
+```python
+import os
+from langchain_crawleo import CrawleoSearch, CrawleoCrawler
+
+# Set environment variable
+os.environ["CRAWLEO_API_KEY"] = "YOUR_API_KEY"
+
+# Tools will automatically use the environment variable
+search_tool = CrawleoSearch()
+crawler_tool = CrawleoCrawler()
+```
+
+## CrawleoSearch Tool
+
+Perform web searches using the Search API:
+
+```python
+from langchain_crawleo import CrawleoSearch
+
+search = CrawleoSearch(api_key="YOUR_API_KEY")
+
+# Basic search
+results = search.invoke("latest AI news")
+print(results)
+
+# Search with options
+results = search.invoke({
+    "query": "machine learning tutorials",
+    "count": 5,
+    "get_page_text_markdown": True
+})
+```
+
+### Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `query` | str | Search query (required) |
+| `count` | int | Number of results |
+| `get_page_text_markdown` | bool | Return Markdown content |
+| `auto_crawling` | bool | Crawl result pages |
+
+## CrawleoCrawler Tool
+
+Crawl specific URLs:
+
+```python
+from langchain_crawleo import CrawleoCrawler
+
+crawler = CrawleoCrawler(api_key="YOUR_API_KEY")
+
+# Crawl a single URL
+content = crawler.invoke("https://example.com")
+print(content)
+
+# Crawl with Markdown output
+content = crawler.invoke({
+    "urls": "https://example.com",
+    "markdown": True
+})
+```
+
+### Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `urls` | str | Comma-separated URLs (required) |
+| `markdown` | bool | Return Markdown content |
+| `raw_html` | bool | Return raw HTML |
+
+## Using with LangChain Agents
+
+### Create an Agent with Crawleo Tools
+
+```python
+from langchain_openai import ChatOpenAI
+from langchain.agents import create_tool_calling_agent, AgentExecutor
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_crawleo import CrawleoSearch, CrawleoCrawler
+
+# Initialize LLM
+llm = ChatOpenAI(model="gpt-4")
+
+# Initialize Crawleo tools
+tools = [
+    CrawleoSearch(api_key="YOUR_CRAWLEO_API_KEY"),
+    CrawleoCrawler(api_key="YOUR_CRAWLEO_API_KEY")
+]
+
+# Create prompt
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are a helpful research assistant with access to web search and crawling tools."),
+    ("human", "{input}"),
+    ("placeholder", "{agent_scratchpad}")
+])
+
+# Create agent
+agent = create_tool_calling_agent(llm, tools, prompt)
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+
+# Run agent
+response = agent_executor.invoke({
+    "input": "Search for the latest Python 3.12 features and summarize them"
+})
+print(response["output"])
+```
+
+## RAG Pipeline Example
+
+Build a RAG pipeline with Crawleo:
+
+```python
+from langchain_crawleo import CrawleoCrawler
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_community.vectorstores import Chroma
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+
+# 1. Crawl documentation
+crawler = CrawleoCrawler(api_key="YOUR_CRAWLEO_API_KEY")
+docs_content = crawler.invoke({
+    "urls": "https://docs.example.com/guide,https://docs.example.com/api",
+    "markdown": True
+})
+
+# 2. Split into chunks
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000,
+    chunk_overlap=200
+)
+chunks = text_splitter.split_text(docs_content)
+
+# 3. Create vector store
+embeddings = OpenAIEmbeddings()
+vectorstore = Chroma.from_texts(chunks, embeddings)
+retriever = vectorstore.as_retriever()
+
+# 4. Create RAG chain
+llm = ChatOpenAI(model="gpt-4")
+prompt = ChatPromptTemplate.from_template("""
+Answer based on the following context:
+
+{context}
+
+Question: {question}
+""")
+
+rag_chain = (
+    {"context": retriever, "question": RunnablePassthrough()}
+    | prompt
+    | llm
+)
+
+# 5. Query
+response = rag_chain.invoke("How do I authenticate with the API?")
+print(response.content)
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Markdown Output" icon="markdown">
+    Always use `markdown=True` or `get_page_text_markdown=True` for LLM applications to minimize token usage.
+  </Accordion>
+  
+  <Accordion title="Handle Rate Limits" icon="gauge-high">
+    Implement retry logic for rate limit errors:
+    
+    ```python
+    from tenacity import retry, stop_after_attempt, wait_exponential
+    
+    @retry(stop=stop_after_attempt(3), wait=wait_exponential())
+    def search_with_retry(query):
+        return search_tool.invoke(query)
+    ```
+  </Accordion>
+  
+  <Accordion title="Cache Results" icon="database">
+    Cache crawled content to avoid redundant API calls:
+    
+    ```python
+    from langchain.globals import set_llm_cache
+    from langchain_community.cache import InMemoryCache
+    
+    set_llm_cache(InMemoryCache())
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Resources
+
+<CardGroup cols={2}>
+  <Card title="PyPI Package" icon="python" href="https://pypi.org/project/langchain-crawleo/">
+    View on PyPI
+  </Card>
+  <Card title="GitHub Examples" icon="github" href="https://github.com/Crawleo">
+    Code examples and samples
+  </Card>
+</CardGroup>

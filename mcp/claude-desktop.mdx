@@ -1,0 +1,140 @@
+---
+title: "Claude Desktop"
+description: "Connect Crawleo to Claude Desktop via MCP"
+icon: "message"
+---
+
+## Overview
+
+Connect Crawleo to Anthropic's Claude Desktop application to give Claude real-time web search and crawling capabilities.
+
+## Prerequisites
+
+- Claude Desktop installed ([download](https://claude.ai/download))
+- Active Crawleo subscription with API key
+
+## Configuration
+
+<Steps>
+  <Step title="Open Claude Desktop Settings">
+    Open Claude Desktop and navigate to **Settings** → **Developer** → **Edit Config**.
+    
+    This opens the `claude_desktop_config.json` file.
+  </Step>
+  
+  <Step title="Add Crawleo MCP Server">
+    Add the Crawleo MCP configuration to your config file:
+    
+    ```json
+    {
+      "mcpServers": {
+        "crawleo": {
+          "url": "https://api.crawleo.dev/mcp",
+          "headers": {
+            "Authorization": "Bearer YOUR_API_KEY"
+          }
+        }
+      }
+    }
+    ```
+    
+    Replace `YOUR_API_KEY` with your actual Crawleo API key.
+  </Step>
+  
+  <Step title="Restart Claude Desktop">
+    Close and reopen Claude Desktop to load the new configuration.
+  </Step>
+  
+  <Step title="Verify Connection">
+    Look for the MCP tools icon (hammer) in the chat interface. Click it to see the available Crawleo tools:
+    - `web.search`
+    - `web.crawl`
+  </Step>
+</Steps>
+
+## Example Prompts
+
+Once connected, try these prompts with Claude:
+
+<AccordionGroup>
+  <Accordion title="Web Search" icon="magnifying-glass">
+    ```
+    Search the web for the latest developments in quantum computing 
+    and summarize the top 5 results.
+    ```
+  </Accordion>
+  
+  <Accordion title="URL Crawling" icon="spider-web">
+    ```
+    Crawl https://docs.python.org/3/tutorial/index.html and create 
+    a study guide based on the content.
+    ```
+  </Accordion>
+  
+  <Accordion title="Research Task" icon="flask">
+    ```
+    Research the top 3 JavaScript frameworks in 2025. Search for 
+    recent articles and compare their features.
+    ```
+  </Accordion>
+  
+  <Accordion title="Content Analysis" icon="file-lines">
+    ```
+    Crawl this blog post [URL] and analyze the author's main arguments.
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Configuration File Location
+
+The Claude Desktop config file is located at:
+
+| OS | Path |
+|----|------|
+| macOS | `~/Library/Application Support/Claude/claude_desktop_config.json` |
+| Windows | `%APPDATA%\Claude\claude_desktop_config.json` |
+| Linux | `~/.config/Claude/claude_desktop_config.json` |
+
+## Full Configuration Example
+
+Here's a complete example with Crawleo configured:
+
+```json
+{
+  "mcpServers": {
+    "crawleo": {
+      "url": "https://api.crawleo.dev/mcp",
+      "headers": {
+        "Authorization": "Bearer crl_abc123xyz789"
+      }
+    }
+  }
+}
+```
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Tools not appearing" icon="triangle-exclamation">
+    1. Verify your API key is correct
+    2. Ensure the JSON syntax is valid
+    3. Restart Claude Desktop completely
+    4. Check that you have an active Crawleo subscription
+  </Accordion>
+  
+  <Accordion title="Authentication errors" icon="lock">
+    - Verify your API key is valid at [crawleo.dev](https://www.crawleo.dev)
+    - Ensure the `Authorization` header includes `Bearer ` prefix
+    - Check for extra spaces or formatting issues in the config
+  </Accordion>
+  
+  <Accordion title="Connection issues" icon="wifi">
+    - Check your internet connection
+    - Verify the MCP URL is exactly `https://api.crawleo.dev/mcp`
+    - Try regenerating your API key if issues persist
+  </Accordion>
+</AccordionGroup>
+
+<Card title="Need Help?" icon="life-ring" href="mailto:support@crawleo.dev">
+  Contact support if you're still having issues.
+</Card>

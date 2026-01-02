@@ -1,0 +1,168 @@
+---
+title: "Windsurf IDE"
+description: "Connect Crawleo to Windsurf IDE via MCP"
+icon: "water"
+---
+
+## Overview
+
+Connect Crawleo to Codeium's Windsurf IDE to give Cascade AI real-time web search and crawling capabilities.
+
+## Prerequisites
+
+- Windsurf IDE installed ([download](https://codeium.com/windsurf))
+- Active Crawleo subscription with API key
+
+## Configuration
+
+<Steps>
+  <Step title="Open Windsurf Settings">
+    Open Windsurf and navigate to **Settings** → **Cascade** → **MCP Servers**.
+  </Step>
+  
+  <Step title="Add Crawleo Server">
+    Add a new MCP server with the following configuration:
+    
+    ```json
+    {
+      "crawleo": {
+        "url": "https://api.crawleo.dev/mcp",
+        "headers": {
+          "Authorization": "Bearer YOUR_API_KEY"
+        }
+      }
+    }
+    ```
+    
+    Replace `YOUR_API_KEY` with your actual Crawleo API key.
+  </Step>
+  
+  <Step title="Save and Restart">
+    Save the configuration and restart Windsurf to apply the changes.
+  </Step>
+</Steps>
+
+## Manual Configuration
+
+You can also edit the configuration file directly:
+
+<Tabs>
+  <Tab title="macOS">
+    Edit `~/.windsurf/mcp.json`:
+    
+    ```json
+    {
+      "mcpServers": {
+        "crawleo": {
+          "url": "https://api.crawleo.dev/mcp",
+          "headers": {
+            "Authorization": "Bearer YOUR_API_KEY"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Windows">
+    Edit `%USERPROFILE%\.windsurf\mcp.json`:
+    
+    ```json
+    {
+      "mcpServers": {
+        "crawleo": {
+          "url": "https://api.crawleo.dev/mcp",
+          "headers": {
+            "Authorization": "Bearer YOUR_API_KEY"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Linux">
+    Edit `~/.windsurf/mcp.json`:
+    
+    ```json
+    {
+      "mcpServers": {
+        "crawleo": {
+          "url": "https://api.crawleo.dev/mcp",
+          "headers": {
+            "Authorization": "Bearer YOUR_API_KEY"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Example Use Cases
+
+Use Crawleo with Windsurf's Cascade AI for:
+
+<AccordionGroup>
+  <Accordion title="Technology Research" icon="flask">
+    ```
+    Search for comparisons between Next.js and Remix in 2025. 
+    What are the pros and cons of each?
+    ```
+  </Accordion>
+  
+  <Accordion title="Documentation Lookup" icon="book-open">
+    ```
+    Crawl the Prisma documentation and show me how to set up 
+    database migrations.
+    ```
+  </Accordion>
+  
+  <Accordion title="Error Resolution" icon="bug">
+    ```
+    Search for "TypeError: Cannot read property of undefined" 
+    in React and find the common causes.
+    ```
+  </Accordion>
+  
+  <Accordion title="Best Practices" icon="star">
+    ```
+    Search for Node.js security best practices and summarize 
+    the key recommendations.
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Cascade AI Integration
+
+Cascade can automatically use Crawleo tools when you:
+
+- Ask questions about current technologies or trends
+- Need to look up documentation
+- Want to research solutions to coding problems
+- Need real-time information not in training data
+
+<Tip>
+  Be specific in your requests. Instead of "search for React", try "search for React 19 new features and breaking changes".
+</Tip>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Connection failed" icon="triangle-exclamation">
+    1. Verify your API key is correct
+    2. Ensure the URL is exactly `https://api.crawleo.dev/mcp`
+    3. Restart Windsurf completely
+    4. Check your internet connection
+  </Accordion>
+  
+  <Accordion title="Tools not showing" icon="circle-question">
+    - Start a new Cascade conversation
+    - Verify MCP is enabled in Windsurf settings
+    - Check the Cascade status indicator
+  </Accordion>
+</AccordionGroup>
+
+<Card title="Need Help?" icon="life-ring" href="mailto:support@crawleo.dev">
+  Contact support if you're still having issues.
+</Card>

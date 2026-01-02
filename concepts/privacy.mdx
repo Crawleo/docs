@@ -1,0 +1,117 @@
+---
+title: "Privacy & Data Handling"
+description: "Crawleo's privacy-first approach to web data"
+icon: "shield-check"
+---
+
+## Our Privacy Commitment
+
+Crawleo is built from the ground up with privacy as a core principle. We believe you should be able to access web data without compromising your privacy or your users' privacy.
+
+<Card title="Zero Retention Policy" icon="trash-can">
+  We do not persistently store your search queries, target URLs, or retrieved web content.
+</Card>
+
+## What We Don't Do
+
+<CardGroup cols={2}>
+  <Card title="No Data Selling" icon="ban">
+    We never sell, rent, or share your data for advertising or profiling.
+  </Card>
+  <Card title="No AI Training" icon="robot">
+    We never use your queries or crawled content to train AI models.
+  </Card>
+  <Card title="No Usage History" icon="clock-rotate-left">
+    We don't maintain logs of what you searched or crawled.
+  </Card>
+  <Card title="No Third-Party Sharing" icon="share-nodes">
+    Your data is never shared with third parties for their purposes.
+  </Card>
+</CardGroup>
+
+## Data We Process
+
+We only process minimal data necessary for service operation:
+
+| Data Type | Purpose | Retention |
+|-----------|---------|-----------|
+| API Key | Authentication | Until account deletion |
+| Request Count | Billing & rate limiting | Aggregated monthly |
+| IP Address | Abuse prevention | Temporary (logs rotated) |
+| Error Logs | Service debugging | Short-term (auto-deleted) |
+
+<Note>
+  We do **not** log your search queries, URLs, or the content we crawl for you.
+</Note>
+
+## Technical Implementation
+
+### Stateless Architecture
+
+Crawleo runs on a serverless architecture using Google Cloud Functions:
+
+- **Stateless execution:** Each request is independent
+- **No persistent storage:** Content flows through, not stored
+- **Automatic scaling:** No data accumulation
+- **Ephemeral processing:** Content discarded after response
+
+### Secure Communication
+
+- All API traffic uses **HTTPS encryption**
+- API keys transmitted securely
+- No plaintext data transmission
+
+## Compliance
+
+Crawleo's privacy-first design is built to be compatible with:
+
+<CardGroup cols={2}>
+  <Card title="GDPR" icon="flag">
+    European General Data Protection Regulation
+  </Card>
+  <Card title="CCPA" icon="flag">
+    California Consumer Privacy Act
+  </Card>
+</CardGroup>
+
+### Your Rights
+
+You have the right to:
+
+- **Access:** Know what data we have about you (minimal account info only)
+- **Deletion:** Request deletion of your account and associated data
+- **Portability:** Export your account information
+- **Objection:** Object to processing (contact support)
+
+## Comparison with Competitors
+
+| Feature | Crawleo | Typical Web APIs |
+|---------|---------|------------------|
+| Query logging | ❌ No | ✅ Yes |
+| Content storage | ❌ No | Often yes |
+| AI training on data | ❌ Never | Sometimes |
+| Data selling | ❌ Never | Sometimes |
+| Usage history | ❌ No | ✅ Yes |
+
+## Responsible Use
+
+While we protect your privacy, we also expect responsible use:
+
+<Warning>
+  Do not use Crawleo to:
+  - Scrape personal data without consent
+  - Violate website terms of service
+  - Engage in illegal activities
+  - Circumvent access controls
+</Warning>
+
+## Questions?
+
+<CardGroup cols={2}>
+  <Card title="Privacy Policy" icon="file-contract" href="https://www.crawleo.dev/privacy">
+    Read our full privacy policy.
+  </Card>
+  <Card title="Contact Us" icon="envelope" href="mailto:privacy@crawleo.dev">
+    Questions about privacy? Contact us.
+  </Card>
+</CardGroup>

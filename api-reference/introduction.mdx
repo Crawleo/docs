@@ -1,33 +1,100 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: "API Introduction"
+description: "Overview of the Crawleo REST API"
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Base URL
 
-## Welcome
+All API requests should be made to:
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
-
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+```
+https://api.crawleo.dev/api/v1
+```
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All endpoints require authentication using a Bearer token in the `Authorization` header:
+
+```bash
+Authorization: Bearer YOUR_API_KEY
+```
+
+<Card title="Get Your API Key" icon="key" href="https://www.crawleo.dev/login">
+  Sign up and subscribe to get your API key.
+</Card>
+
+## Available Endpoints
+
+Crawleo provides two main API endpoints:
+
+<CardGroup cols={2}>
+  <Card title="Search API" icon="magnifying-glass" href="/api-reference/endpoint/search">
+    **GET /search**
+    
+    Real-time web search with optional automatic crawling of results.
+  </Card>
+  <Card title="Crawler API" icon="spider-web" href="/api-reference/endpoint/crawler">
+    **GET /crawler**
+    
+    Direct URL crawling with JavaScript rendering support.
+  </Card>
+</CardGroup>
+
+## Output Formats
+
+Both APIs support multiple output formats optimized for different use cases:
+
+| Format | Description | Best For |
+|--------|-------------|----------|
+| **Raw HTML** | Original page source | Full content preservation |
+| **AI-Enhanced HTML** | Clean HTML (no ads, scripts) | Cleaner processing |
+| **Plain Text** | Extracted text content | Simple text processing |
+| **Markdown** | Structured markdown | RAG pipelines, LLMs |
+
+<Tip>
+  Use **Markdown** output for AI/LLM applications to minimize token usage.
+</Tip>
+
+## Response Format
+
+All responses are returned as JSON. Successful responses include the requested data, while errors return an error object:
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
+{
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "Human-readable error message"
   }
-]
+}
 ```
+
+## HTTP Status Codes
+
+| Code | Description |
+|------|-------------|
+| `200` | Success |
+| `400` | Bad Request - Invalid parameters |
+| `401` | Unauthorized - Invalid or missing API key |
+| `403` | Forbidden - Insufficient permissions |
+| `429` | Too Many Requests - Rate limit exceeded |
+| `500` | Internal Server Error |
+
+## Rate Limiting
+
+API requests are rate-limited based on your subscription plan. Rate limit information is included in response headers:
+
+- `X-RateLimit-Limit`: Maximum requests per period
+- `X-RateLimit-Remaining`: Remaining requests in current period
+- `X-RateLimit-Reset`: Time when the rate limit resets
+
+## MCP Integration
+
+For AI assistants and IDEs, Crawleo also provides a Model Context Protocol (MCP) endpoint:
+
+```
+https://api.crawleo.dev/mcp
+```
+
+<Card title="MCP Integration" icon="plug" href="/mcp/overview">
+  Learn how to connect AI assistants directly to Crawleo.
+</Card>

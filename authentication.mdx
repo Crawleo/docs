@@ -1,0 +1,97 @@
+---
+title: "Authentication"
+description: "Authenticate your requests to the Crawleo API"
+---
+
+## API Key Authentication
+
+All Crawleo API requests require authentication using a Bearer token.
+
+### Getting Your API Key
+
+1. Sign up at [crawleo.dev/login](https://www.crawleo.dev/login)
+2. Subscribe to a plan at [crawleo.dev/pricing](https://www.crawleo.dev/pricing)
+3. Access your API key from the dashboard
+
+### Using Your API Key
+
+Include your API key in the `Authorization` header of every request:
+
+```bash
+Authorization: Bearer YOUR_API_KEY
+```
+
+### Example Request
+
+<CodeGroup>
+```bash cURL
+curl -X GET "https://api.crawleo.dev/api/v1/search?query=hello" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```python Python
+import requests
+
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY"
+}
+
+response = requests.get(
+    "https://api.crawleo.dev/api/v1/search",
+    params={"query": "hello"},
+    headers=headers
+)
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.crawleo.dev/api/v1/search?query=hello",
+  {
+    headers: {
+      "Authorization": "Bearer YOUR_API_KEY"
+    }
+  }
+);
+```
+</CodeGroup>
+
+## Security Best Practices
+
+<Warning>
+  Never expose your API key in client-side code or public repositories.
+</Warning>
+
+<AccordionGroup>
+  <Accordion title="Use Environment Variables" icon="lock">
+    Store your API key in environment variables rather than hardcoding it:
+    
+    ```bash
+    export CRAWLEO_API_KEY="your_api_key_here"
+    ```
+    
+    ```python
+    import os
+    api_key = os.environ.get("CRAWLEO_API_KEY")
+    ```
+  </Accordion>
+  
+  <Accordion title="Server-Side Only" icon="server">
+    Make API calls from your backend server, not from browser-based JavaScript.
+  </Accordion>
+  
+  <Accordion title="Rotate Keys Regularly" icon="arrows-rotate">
+    Periodically rotate your API keys, especially if you suspect they may have been compromised.
+  </Accordion>
+</AccordionGroup>
+
+## Rate Limiting
+
+API requests are rate-limited based on your subscription plan. If you exceed your rate limit, you'll receive a `429 Too Many Requests` response.
+
+## Error Responses
+
+| Status Code | Description |
+|-------------|-------------|
+| `401` | Invalid or missing API key |
+| `403` | API key doesn't have access to this resource |
+| `429` | Rate limit exceeded |

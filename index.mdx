@@ -1,97 +1,107 @@
 ---
 title: "Introduction"
-description: "Welcome to the new home for your documentation"
+description: "Privacy-first, real-time web search and crawling API for AI applications"
 ---
 
-## Setting up
+## What is Crawleo?
 
-Get your documentation site up and running in minutes.
+Crawleo is a **privacy-first, real-time web search and crawling API** built specifically for:
+
+- AI developers
+- LLM-powered applications  
+- Retrieval-Augmented Generation (RAG) pipelines
+- AI agents and automation workflows
+
+We deliver **clean, AI-ready web data** with **strict privacy guarantees** and **cost-efficient pricing**.
 
 <Card
-  title="Start here"
+  title="Get Started"
   icon="rocket"
   href="/quickstart"
   horizontal
 >
-  Follow our three step quickstart guide.
+  Set up your first API call in under 5 minutes.
 </Card>
 
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
+## Core Features
 
 <Columns cols={2}>
   <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
+    title="Search API"
+    icon="magnifying-glass"
+    href="/api-reference/endpoint/search"
   >
-    Edit your docs locally and preview them in real time.
+    Real-time web search with optional automatic crawling of results.
   </Card>
   <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
+    title="Crawler API"
+    icon="spider-web"
+    href="/api-reference/endpoint/crawler"
   >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+    Direct URL crawling with JavaScript rendering support.
   </Card>
   <Card
-    title="API documentation"
-    icon="terminal"
+    title="MCP Integration"
+    icon="plug"
+    href="/mcp/overview"
+  >
+    Native Model Context Protocol support for AI assistants.
+  </Card>
+  <Card
+    title="LangChain"
+    icon="link"
+    href="/integrations/langchain"
+  >
+    Ready-to-use LangChain tools for seamless integration.
+  </Card>
+</Columns>
+
+## Why Crawleo?
+
+<AccordionGroup>
+  <Accordion title="Privacy-First" icon="shield-check">
+    No selling user data, no training models on your data, no persistent storage of your queries or crawled content.
+  </Accordion>
+  <Accordion title="LLM-Optimized Outputs" icon="brain">
+    Multiple output formats (HTML, Markdown, plain text) designed for reduced token usage and minimal post-processing.
+  </Accordion>
+  <Accordion title="Real-Time Data" icon="clock">
+    Live web access, not cached datasets. Get the freshest data available.
+  </Accordion>
+  <Accordion title="Developer-First" icon="code">
+    Simple APIs, fast setup, predictable subscription-based pricing.
+  </Accordion>
+</AccordionGroup>
+
+## Integration Options
+
+<Columns cols={2}>
+  <Card
+    title="REST API"
+    icon="server"
     href="/api-reference/introduction"
   >
-    Auto-generate API documentation from OpenAPI specifications.
+    Direct HTTP integration. Perfect for custom applications, backends, and scripts.
+  </Card>
+  <Card
+    title="MCP Protocol"
+    icon="robot"
+    href="/mcp/overview"
+  >
+    Connect AI assistants directly to Crawleo. Works with Claude, Cursor, GitHub Copilot, and more.
   </Card>
 </Columns>
 
-## Create beautiful pages
+## Quick Links
 
-Everything you need to create world-class documentation.
-
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
+<CardGroup cols={3}>
+  <Card title="API Reference" icon="book" href="/api-reference/introduction">
+    Complete API documentation
   </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
+  <Card title="Pricing" icon="credit-card" href="https://www.crawleo.dev/pricing">
+    View subscription plans
   </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
+  <Card title="GitHub" icon="github" href="https://github.com/Crawleo">
+    Examples and integrations
   </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
-
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+</CardGroup>

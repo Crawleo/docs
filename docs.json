@@ -1,21 +1,20 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Crawleo",
   "colors": {
     "primary": "#7B3FE4",
     "light": "#6EE7F9",
     "dark": "#D946EF"
   },
-
   "favicon": "/favicon.svg",
   "navigation": {
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "icon": "book-open-cover",
-          "href": "https://mintlify.com/docs"
+          "anchor": "API Reference",
+          "icon": "code",
+          "href": "/api-reference/introduction"
         },
         {
           "anchor": "Blog",
@@ -29,55 +28,52 @@
         "tab": "Guides",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Getting Started",
             "pages": [
               "index",
               "quickstart",
-              "development"
+              "authentication"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Core Concepts",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "concepts/output-formats",
+              "concepts/privacy"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "MCP Integration",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "mcp/overview",
+              "mcp/claude-desktop",
+              "mcp/cursor",
+              "mcp/windsurf",
+              "mcp/github-copilot"
             ]
           },
           {
-            "group": "AI tools",
+            "group": "Integrations",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "integrations/langchain"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "API Reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Overview",
             "pages": [
               "api-reference/introduction"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Endpoints",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/endpoint/search",
+              "api-reference/endpoint/crawler"
             ]
           }
         ]
@@ -94,21 +90,21 @@
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Get Started",
+      "href": "https://www.crawleo.dev/login"
     }
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {
@@ -125,5 +121,8 @@
     "ga4": {
       "measurementId": "G-C6D6TPHNKL"
     }
+  },
+  "api": {
+    "baseUrl": "https://api.crawleo.dev/api/v1"
   }
 }

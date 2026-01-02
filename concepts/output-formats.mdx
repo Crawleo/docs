@@ -1,0 +1,193 @@
+---
+title: "Output Formats"
+description: "Understanding Crawleo's output format options"
+icon: "file-code"
+---
+
+## Overview
+
+Crawleo provides multiple output formats optimized for different use cases. Choose the format that best fits your application's needs.
+
+## Available Formats
+
+<CardGroup cols={2}>
+  <Card title="Raw HTML" icon="code">
+    Original page source with all elements intact.
+  </Card>
+  <Card title="AI-Enhanced HTML" icon="sparkles">
+    Clean HTML with ads, scripts, and tracking removed.
+  </Card>
+  <Card title="Plain Text" icon="file-lines">
+    Extracted text content without HTML markup.
+  </Card>
+  <Card title="Markdown" icon="markdown">
+    Structured Markdown optimized for LLMs.
+  </Card>
+</CardGroup>
+
+## Format Details
+
+### Raw HTML
+
+Returns the complete, unmodified HTML source of the page.
+
+**Parameter:** `raw_html=true` (Crawler API) or `get_raw_html=true` (Search API)
+
+**Best for:**
+- Full page preservation
+- Custom parsing and extraction
+- When you need exact page structure
+
+**Example output:**
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Example Page</title>
+  <script src="analytics.js"></script>
+</head>
+<body>
+  <nav>...</nav>
+  <main>
+    <h1>Welcome</h1>
+    <p>Content here...</p>
+  </main>
+  <footer>...</footer>
+</body>
+</html>
+```
+
+---
+
+### AI-Enhanced HTML
+
+Returns cleaned HTML with ads, tracking scripts, and unnecessary elements removed.
+
+**Parameter:** `get_ai_enhanced_html=true` (Search API)
+
+**Best for:**
+- Cleaner content processing
+- Reduced noise in extraction
+- When you want HTML structure without clutter
+
+**Example output:**
+```html
+<main>
+  <h1>Welcome</h1>
+  <p>Content here...</p>
+</main>
+```
+
+---
+
+### Plain Text
+
+Returns extracted text content without any HTML markup.
+
+**Parameter:** `get_page_text=true` (Search API)
+
+**Best for:**
+- Simple text processing
+- Search and analysis tasks
+- When HTML structure isn't needed
+
+**Example output:**
+```
+Welcome
+
+Content here...
+```
+
+---
+
+### Markdown
+
+Returns content converted to structured Markdown format.
+
+**Parameter:** `markdown=true` (Crawler API) or `get_page_text_markdown=true` (Search API)
+
+**Best for:**
+- RAG pipelines
+- LLM consumption
+- Vector database ingestion
+- Minimal token usage
+
+**Example output:**
+```markdown
+# Welcome
+
+Content here...
+
+## Section Title
+
+More content with [links](https://example.com) and **formatting**.
+```
+
+## Format Comparison
+
+| Format | Token Usage | Structure | Noise Level | Best For |
+|--------|-------------|-----------|-------------|----------|
+| Raw HTML | High | Full | High | Custom parsing |
+| AI-Enhanced HTML | Medium | Partial | Low | Clean extraction |
+| Plain Text | Low | None | Low | Simple processing |
+| Markdown | Low | Preserved | Minimal | LLM/RAG |
+
+## Recommendations by Use Case
+
+<AccordionGroup>
+  <Accordion title="RAG Pipeline" icon="brain">
+    Use **Markdown** format for optimal results:
+    - Preserves document structure (headers, lists, links)
+    - Minimal token usage
+    - Clean content ready for embedding
+    
+    ```python
+    response = requests.get(
+        "https://api.crawleo.dev/api/v1/crawler",
+        params={"urls": url, "markdown": True},
+        headers={"Authorization": f"Bearer {api_key}"}
+    )
+    ```
+  </Accordion>
+  
+  <Accordion title="LLM Context" icon="message">
+    Use **Markdown** or **Plain Text**:
+    - Markdown if structure matters
+    - Plain text for maximum token efficiency
+    
+    ```python
+    # For structured content
+    params = {"query": query, "get_page_text_markdown": True}
+    
+    # For simple text
+    params = {"query": query, "get_page_text": True}
+    ```
+  </Accordion>
+  
+  <Accordion title="Web Scraping" icon="spider">
+    Use **Raw HTML** or **AI-Enhanced HTML**:
+    - Raw HTML for full control
+    - AI-Enhanced HTML for cleaner starting point
+  </Accordion>
+  
+  <Accordion title="Content Analysis" icon="chart-bar">
+    Use **Plain Text** or **Markdown**:
+    - Easy to process with NLP tools
+    - No HTML parsing required
+  </Accordion>
+</AccordionGroup>
+
+## Multiple Formats
+
+You can request multiple formats in a single request:
+
+```bash
+curl -X GET "https://api.crawleo.dev/api/v1/search?query=example&get_raw_html=true&get_page_text_markdown=true" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+The response will include both formats for each result.
+
+<Tip>
+  **Pro tip:** Start with Markdown for most AI applications. It provides the best balance of structure and token efficiency.
+</Tip>

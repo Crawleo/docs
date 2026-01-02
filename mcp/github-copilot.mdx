@@ -1,0 +1,146 @@
+---
+title: "GitHub Copilot"
+description: "Connect Crawleo to GitHub Copilot via MCP"
+icon: "github"
+---
+
+## Overview
+
+Connect Crawleo to GitHub Copilot to enhance it with real-time web search and crawling capabilities.
+
+## Prerequisites
+
+- GitHub Copilot subscription
+- VS Code with GitHub Copilot extension
+- Active Crawleo subscription with API key
+
+## Configuration
+
+<Steps>
+  <Step title="Open VS Code Settings">
+    Open VS Code and go to **Settings** (`Cmd+,` on macOS or `Ctrl+,` on Windows/Linux).
+    
+    Search for "MCP" or navigate to the GitHub Copilot extension settings.
+  </Step>
+  
+  <Step title="Configure MCP Server">
+    Add the Crawleo MCP server configuration:
+    
+    ```json
+    {
+      "github.copilot.chat.mcpServers": {
+        "crawleo": {
+          "url": "https://api.crawleo.dev/mcp",
+          "headers": {
+            "Authorization": "Bearer YOUR_API_KEY"
+          }
+        }
+      }
+    }
+    ```
+  </Step>
+  
+  <Step title="Restart VS Code">
+    Restart VS Code to apply the configuration changes.
+  </Step>
+</Steps>
+
+## Manual Configuration
+
+Edit your VS Code `settings.json` directly:
+
+1. Open Command Palette (`Cmd+Shift+P` / `Ctrl+Shift+P`)
+2. Search for "Preferences: Open User Settings (JSON)"
+3. Add the Crawleo configuration:
+
+```json
+{
+  "github.copilot.chat.mcpServers": {
+    "crawleo": {
+      "url": "https://api.crawleo.dev/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+## Example Use Cases
+
+Once connected, use Crawleo with GitHub Copilot Chat:
+
+<AccordionGroup>
+  <Accordion title="API Documentation" icon="book">
+    ```
+    @workspace Search for the OpenAI API documentation and show me 
+    how to use function calling.
+    ```
+  </Accordion>
+  
+  <Accordion title="Library Research" icon="magnifying-glass">
+    ```
+    Search for the best TypeScript validation libraries and 
+    compare Zod vs Yup vs Joi.
+    ```
+  </Accordion>
+  
+  <Accordion title="Error Solutions" icon="bug">
+    ```
+    Search for solutions to "CORS error in fetch request" 
+    and explain the fixes.
+    ```
+  </Accordion>
+  
+  <Accordion title="Crawl Documentation" icon="spider-web">
+    ```
+    Crawl https://expressjs.com/en/guide/routing.html and 
+    create a cheat sheet for Express routing.
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Using with @workspace
+
+Combine Crawleo's web capabilities with Copilot's workspace understanding:
+
+```
+Search for best practices for the framework used in my project 
+and suggest improvements to my codebase.
+```
+
+This allows Copilot to:
+1. Understand your project context
+2. Search for relevant best practices
+3. Apply suggestions to your specific code
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="MCP not available" icon="triangle-exclamation">
+    - Ensure you have the latest GitHub Copilot extension
+    - MCP support may require Copilot Chat preview features
+    - Check GitHub Copilot release notes for MCP availability
+  </Accordion>
+  
+  <Accordion title="Configuration not working" icon="gear">
+    1. Verify JSON syntax is correct
+    2. Check for typos in the URL or headers
+    3. Restart VS Code completely
+    4. Try clearing Copilot cache
+  </Accordion>
+  
+  <Accordion title="Authentication errors" icon="lock">
+    - Verify your Crawleo API key is valid
+    - Ensure the `Bearer ` prefix is included
+    - Check your Crawleo subscription is active
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  GitHub Copilot MCP support may be in preview. Check the [GitHub Copilot documentation](https://docs.github.com/en/copilot) for the latest information on MCP capabilities.
+</Note>
+
+<Card title="Need Help?" icon="life-ring" href="mailto:support@crawleo.dev">
+  Contact support if you're still having issues.
+</Card>

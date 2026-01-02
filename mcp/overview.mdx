@@ -1,0 +1,108 @@
+---
+title: "MCP Overview"
+description: "Model Context Protocol integration for AI assistants"
+icon: "plug"
+---
+
+## What is MCP?
+
+The **Model Context Protocol (MCP)** is an open standard that enables AI assistants to connect directly to external tools and data sources. Crawleo provides native MCP support, allowing AI assistants to search the web and crawl URLs without custom integration code.
+
+## MCP Endpoint
+
+```
+https://api.crawleo.dev/mcp
+```
+
+## Available Tools
+
+When connected via MCP, AI assistants have access to two tools:
+
+<CardGroup cols={2}>
+  <Card title="web.search" icon="magnifying-glass">
+    Perform real-time web searches and optionally crawl results.
+  </Card>
+  <Card title="web.crawl" icon="spider-web">
+    Crawl specific URLs and extract content.
+  </Card>
+</CardGroup>
+
+## Compatible Platforms
+
+Crawleo MCP works with all major AI assistants and development environments:
+
+<CardGroup cols={2}>
+  <Card title="Claude Desktop" icon="message" href="/mcp/claude-desktop">
+    Anthropic's Claude desktop application.
+  </Card>
+  <Card title="Cursor IDE" icon="arrow-pointer" href="/mcp/cursor">
+    AI-powered code editor.
+  </Card>
+  <Card title="Windsurf IDE" icon="water" href="/mcp/windsurf">
+    Codeium's AI development environment.
+  </Card>
+  <Card title="GitHub Copilot" icon="github" href="/mcp/github-copilot">
+    GitHub's AI pair programmer.
+  </Card>
+</CardGroup>
+
+## Why Use MCP?
+
+<AccordionGroup>
+  <Accordion title="Zero Code Integration" icon="wand-magic-sparkles">
+    Connect AI assistants to Crawleo without writing any integration code. Just configure and go.
+  </Accordion>
+  
+  <Accordion title="Native AI Experience" icon="robot">
+    AI assistants can naturally decide when to search the web or crawl pages based on your requests.
+  </Accordion>
+  
+  <Accordion title="Real-Time Web Access" icon="globe">
+    Give your AI assistant access to live web data, not just its training data.
+  </Accordion>
+  
+  <Accordion title="Privacy-First" icon="shield-check">
+    Same strict privacy guarantees as the REST API - no data retention, no training on your data.
+  </Accordion>
+</AccordionGroup>
+
+## Quick Setup
+
+The basic configuration pattern is the same across all platforms:
+
+```json
+{
+  "mcpServers": {
+    "crawleo": {
+      "url": "https://api.crawleo.dev/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+Select your platform from the navigation to see detailed setup instructions.
+
+## Example Usage
+
+Once configured, you can ask your AI assistant things like:
+
+- *"Search for the latest news about artificial intelligence"*
+- *"Crawl this documentation page and summarize it"*
+- *"Find and compare pricing from these three websites"*
+- *"Research the top Python web frameworks and their features"*
+
+The AI will automatically use Crawleo's tools to fetch real-time web data.
+
+## Resources
+
+<CardGroup cols={2}>
+  <Card title="MCP.so Listing" icon="link" href="https://mcp.so/server/crawleo-mcp-server/Crawleo">
+    View Crawleo on MCP.so directory.
+  </Card>
+  <Card title="GitHub Examples" icon="github" href="https://github.com/Crawleo">
+    Code examples and integrations.
+  </Card>
+</CardGroup>

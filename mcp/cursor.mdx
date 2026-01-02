@@ -1,0 +1,161 @@
+---
+title: "Cursor IDE"
+description: "Connect Crawleo to Cursor IDE via MCP"
+icon: "arrow-pointer"
+---
+
+## Overview
+
+Connect Crawleo to Cursor IDE to give the AI assistant real-time web search and crawling capabilities while you code.
+
+## Prerequisites
+
+- Cursor IDE installed ([download](https://cursor.sh))
+- Active Crawleo subscription with API key
+
+## Configuration
+
+<Steps>
+  <Step title="Open Cursor Settings">
+    Open Cursor and go to **Settings** → **Cursor Settings** → **MCP**.
+    
+    Or press `Cmd+Shift+P` (macOS) / `Ctrl+Shift+P` (Windows/Linux) and search for "MCP".
+  </Step>
+  
+  <Step title="Add MCP Server">
+    Click **Add MCP Server** and configure:
+    
+    - **Name:** `crawleo`
+    - **URL:** `https://api.crawleo.dev/mcp`
+    - **Headers:**
+      ```
+      Authorization: Bearer YOUR_API_KEY
+      ```
+  </Step>
+  
+  <Step title="Save and Verify">
+    Save the configuration. The Crawleo tools should now be available in your AI conversations.
+  </Step>
+</Steps>
+
+## Alternative: Manual Configuration
+
+You can also edit the MCP configuration file directly:
+
+<Tabs>
+  <Tab title="macOS">
+    Edit `~/.cursor/mcp.json`:
+    
+    ```json
+    {
+      "mcpServers": {
+        "crawleo": {
+          "url": "https://api.crawleo.dev/mcp",
+          "headers": {
+            "Authorization": "Bearer YOUR_API_KEY"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Windows">
+    Edit `%USERPROFILE%\.cursor\mcp.json`:
+    
+    ```json
+    {
+      "mcpServers": {
+        "crawleo": {
+          "url": "https://api.crawleo.dev/mcp",
+          "headers": {
+            "Authorization": "Bearer YOUR_API_KEY"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Linux">
+    Edit `~/.cursor/mcp.json`:
+    
+    ```json
+    {
+      "mcpServers": {
+        "crawleo": {
+          "url": "https://api.crawleo.dev/mcp",
+          "headers": {
+            "Authorization": "Bearer YOUR_API_KEY"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Example Use Cases
+
+Once connected, use Crawleo with Cursor for:
+
+<AccordionGroup>
+  <Accordion title="Research Libraries" icon="book">
+    ```
+    Search for the best Python libraries for data validation in 2025 
+    and compare their features.
+    ```
+  </Accordion>
+  
+  <Accordion title="Read Documentation" icon="file-lines">
+    ```
+    Crawl the FastAPI documentation at https://fastapi.tiangolo.com 
+    and show me how to set up authentication.
+    ```
+  </Accordion>
+  
+  <Accordion title="Check API References" icon="code">
+    ```
+    Search for the Stripe API documentation and show me how to 
+    create a subscription.
+    ```
+  </Accordion>
+  
+  <Accordion title="Debug Help" icon="bug">
+    ```
+    Search for solutions to "React hydration mismatch error" 
+    and summarize the best fixes.
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Workflow Tips
+
+<Tip>
+  Combine Crawleo web search with Cursor's codebase understanding for powerful research and implementation workflows.
+</Tip>
+
+**Example workflow:**
+1. Ask Cursor to search for best practices using Crawleo
+2. Have Cursor analyze your current code
+3. Get suggestions that combine web knowledge with your codebase context
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="MCP server not connecting" icon="triangle-exclamation">
+    1. Restart Cursor after configuration changes
+    2. Verify the URL is exactly `https://api.crawleo.dev/mcp`
+    3. Check your API key is valid
+  </Accordion>
+  
+  <Accordion title="Tools not available in chat" icon="circle-question">
+    - Open a new chat window after configuring MCP
+    - Check the MCP status indicator in Cursor settings
+    - Verify your Crawleo subscription is active
+  </Accordion>
+</AccordionGroup>
+
+<Card title="Need Help?" icon="life-ring" href="mailto:support@crawleo.dev">
+  Contact support if you're still having issues.
+</Card>
