@@ -122,6 +122,34 @@
       "measurementId": "G-C6D6TPHNKL"
     }
   },
+  "seo": {
+    "indexing": "all",
+    "metatags": {
+      "robots": "index, follow",
+      "googlebot": "index, follow",
+      "description": "Crawleo API Documentation - AI-powered web scraping and search API. Extract data from any website with ease.",
+      "keywords": "web scraping, API, web crawling, data extraction, search API, MCP, AI agents",
+      "author": "Crawleo",
+      "og:title": "Crawleo Documentation",
+      "og:description": "AI-powered web scraping and search API documentation. Learn how to integrate Crawleo into your applications.",
+      "og:url": "https://docs.crawleo.dev",
+      "og:image": "https://docs.crawleo.dev/images/crawleo_logo-512x512.jpeg",
+      "og:site_name": "Crawleo Documentation",
+      "og:type": "website",
+      "og:locale": "en_US",
+      "twitter:card": "summary_large_image",
+      "twitter:site": "@crawleo_dev",
+      "twitter:title": "Crawleo Documentation",
+      "twitter:description": "AI-powered web scraping and search API. Extract data from any website with ease.",
+      "twitter:image": "https://docs.crawleo.dev/images/crawleo_logo-512x512.jpeg"
+    }
+  },
+  "metadata": {
+    "og:site_name": "Crawleo Documentation",
+    "og:type": "website",
+    "twitter:site": "@crawleo_dev",
+    "canonical": "https://docs.crawleo.dev"
+  },
   "api": {
     "baseUrl": "https://api.crawleo.dev"
   }
