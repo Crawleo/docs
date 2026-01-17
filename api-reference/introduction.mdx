@@ -8,15 +8,21 @@ description: "Overview of the Crawleo REST API"
 All API requests should be made to:
 
 ```
-https://api.crawleo.dev/api/v1
+https://api.crawleo.dev
 ```
 
 ## Authentication
 
-All endpoints require authentication using a Bearer token in the `Authorization` header:
+All endpoints require authentication using your API key. You can provide it in one of two ways:
 
+**Option 1: Authorization Header**
 ```bash
 Authorization: Bearer YOUR_API_KEY
+```
+
+**Option 2: X-API-Key Header**
+```bash
+x-api-key: YOUR_API_KEY
 ```
 
 <Card title="Get Your API Key" icon="key" href="https://www.crawleo.dev/login">
@@ -34,7 +40,7 @@ Crawleo provides two main API endpoints:
     Real-time web search with optional automatic crawling of results.
   </Card>
   <Card title="Crawler API" icon="spider-web" href="/api-reference/endpoint/crawler">
-    **GET /crawler**
+    **GET /crawl**
     
     Direct URL crawling with JavaScript rendering support.
   </Card>
@@ -44,12 +50,11 @@ Crawleo provides two main API endpoints:
 
 Both APIs support multiple output formats optimized for different use cases:
 
-| Format | Description | Best For |
-|--------|-------------|----------|
-| **Raw HTML** | Original page source | Full content preservation |
-| **AI-Enhanced HTML** | Clean HTML (no ads, scripts) | Cleaner processing |
-| **Plain Text** | Extracted text content | Simple text processing |
-| **Markdown** | Structured markdown | RAG pipelines, LLMs |
+| Format | Crawler Parameter | Description | Best For |
+|--------|-------------------|-------------|----------|
+| **Raw HTML** | `output_format=raw_html` | Original page source | Full content preservation |
+| **Enhanced HTML** | `output_format=enhanced_html` | Clean HTML (no ads, scripts) | Cleaner processing |
+| **Markdown** | `output_format=markdown` | Structured markdown | RAG pipelines, LLMs |
 
 <Tip>
   Use **Markdown** output for AI/LLM applications to minimize token usage.
@@ -76,16 +81,27 @@ All responses are returned as JSON. Successful responses include the requested d
 | `400` | Bad Request - Invalid parameters |
 | `401` | Unauthorized - Invalid or missing API key |
 | `403` | Forbidden - Insufficient permissions |
-| `429` | Too Many Requests - Rate limit exceeded |
+| `429` | Credits exhausted or concurrent request limit reached |
 | `500` | Internal Server Error |
 
-## Rate Limiting
+## Credits System
 
-API requests are rate-limited based on your subscription plan. Rate limit information is included in response headers:
+API usage is tracked using credits. Each API call deducts credits from your monthly allowance based on your subscription plan.
 
-- `X-RateLimit-Limit`: Maximum requests per period
-- `X-RateLimit-Remaining`: Remaining requests in current period
-- `X-RateLimit-Reset`: Time when the rate limit resets
+| Plan | Credits/Month | Concurrent Requests |
+|------|---------------|---------------------|
+| Free Plan - 1K | 10,000 | 1 |
+| Developer - 10k | 100,000 | 3 |
+| Pro - 100K | 1,000,000 | 5 |
+| Scale 250K | 2,500,000 | 10 |
+
+## Concurrent Request Limits
+
+Each plan has a maximum number of concurrent requests. If you exceed this limit, you'll receive a `429` response with the message:
+
+```
+Concurrent request limit reached ({limit}). Please wait for other requests to finish.
+```
 
 ## MCP Integration
 

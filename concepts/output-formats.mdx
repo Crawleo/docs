@@ -31,7 +31,7 @@ Crawleo provides multiple output formats optimized for different use cases. Choo
 
 Returns the complete, unmodified HTML source of the page.
 
-**Parameter:** `raw_html=true` (Crawler API) or `get_raw_html=true` (Search API)
+**Parameter:** `output_format=raw_html` (Crawler API) or `get_raw_html=true` (Search API)
 
 **Best for:**
 - Full page preservation
@@ -104,7 +104,7 @@ Content here...
 
 Returns content converted to structured Markdown format.
 
-**Parameter:** `markdown=true` (Crawler API) or `get_page_text_markdown=true` (Search API)
+**Parameter:** `output_format=markdown` (Crawler API) or `get_page_text_markdown=true` (Search API)
 
 **Best for:**
 - RAG pipelines
@@ -143,8 +143,8 @@ More content with [links](https://example.com) and **formatting**.
     
     ```python
     response = requests.get(
-        "https://api.crawleo.dev/api/v1/crawler",
-        params={"urls": url, "markdown": True},
+        "https://api.crawleo.dev/crawl",
+        params={"urls": url, "output_format": "markdown"},
         headers={"Authorization": f"Bearer {api_key}"}
     )
     ```
@@ -182,7 +182,7 @@ More content with [links](https://example.com) and **formatting**.
 You can request multiple formats in a single request:
 
 ```bash
-curl -X GET "https://api.crawleo.dev/api/v1/search?query=example&get_raw_html=true&get_page_text_markdown=true" \
+curl -X GET "https://api.crawleo.dev/search?query=example&get_raw_html=true&get_page_text_markdown=true" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 

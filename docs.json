@@ -123,6 +123,6 @@
     }
   },
   "api": {
-    "baseUrl": "https://api.crawleo.dev/api/v1"
+    "baseUrl": "https://api.crawleo.dev"
   }
 }

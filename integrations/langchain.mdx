@@ -101,7 +101,7 @@ print(content)
 # Crawl with Markdown output
 content = crawler.invoke({
     "urls": "https://example.com",
-    "markdown": True
+    "output_format": "markdown"
 })
 ```
 
@@ -109,9 +109,12 @@ content = crawler.invoke({
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `urls` | str | Comma-separated URLs (required) |
-| `markdown` | bool | Return Markdown content |
-| `raw_html` | bool | Return raw HTML |
+| `urls` | str | URL(s) to crawl (required) |
+| `output_format` | str | Output format: `raw_html`, `enhanced_html`, or `markdown` |
+| `country` | str | 2-letter country code (default: `us`) |
+| `screenshot` | bool | Capture screenshot |
+| `use_proxies` | bool | Use datacenter proxies |
+| `use_premium_proxies` | bool | Use residential proxies |
 
 ## Using with LangChain Agents
 
@@ -166,7 +169,7 @@ from langchain_core.runnables import RunnablePassthrough
 crawler = CrawleoCrawler(api_key="YOUR_CRAWLEO_API_KEY")
 docs_content = crawler.invoke({
     "urls": "https://docs.example.com/guide,https://docs.example.com/api",
-    "markdown": True
+    "output_format": "markdown"
 })
 
 # 2. Split into chunks
@@ -206,11 +209,11 @@ print(response.content)
 
 <AccordionGroup>
   <Accordion title="Use Markdown Output" icon="markdown">
-    Always use `markdown=True` or `get_page_text_markdown=True` for LLM applications to minimize token usage.
+    Always use `output_format="markdown"` or `get_page_text_markdown=True` for LLM applications to minimize token usage.
   </Accordion>
   
-  <Accordion title="Handle Rate Limits" icon="gauge-high">
-    Implement retry logic for rate limit errors:
+  <Accordion title="Handle Credits Limits" icon="gauge-high">
+    Implement retry logic for credits exhaustion errors:
     
     ```python
     from tenacity import retry, stop_after_attempt, wait_exponential

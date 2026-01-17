@@ -11,7 +11,7 @@ The Search API provides real-time web search with optional automatic crawling of
 ## Endpoint
 
 ```
-GET https://api.crawleo.dev/api/v1/search
+GET https://api.crawleo.dev/search
 ```
 
 ## Parameters
@@ -82,7 +82,7 @@ GET https://api.crawleo.dev/api/v1/search
 
 <CodeGroup>
 ```bash cURL
-curl -X GET "https://api.crawleo.dev/api/v1/search?query=machine%20learning&count=10" \
+curl -X GET "https://api.crawleo.dev/search?query=machine%20learning&count=10" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -90,7 +90,7 @@ curl -X GET "https://api.crawleo.dev/api/v1/search?query=machine%20learning&coun
 import requests
 
 response = requests.get(
-    "https://api.crawleo.dev/api/v1/search",
+    "https://api.crawleo.dev/search",
     params={
         "query": "machine learning",
         "count": 10
@@ -103,7 +103,7 @@ results = response.json()
 
 ```javascript JavaScript
 const response = await fetch(
-  "https://api.crawleo.dev/api/v1/search?query=machine%20learning&count=10",
+  "https://api.crawleo.dev/search?query=machine%20learning&count=10",
   {
     headers: { "Authorization": "Bearer YOUR_API_KEY" }
   }
@@ -117,7 +117,7 @@ const results = await response.json();
 
 <CodeGroup>
 ```bash cURL
-curl -X GET "https://api.crawleo.dev/api/v1/search?query=python%20tutorials&count=5&auto_crawling=true&get_page_text_markdown=true" \
+curl -X GET "https://api.crawleo.dev/search?query=python%20tutorials&count=5&auto_crawling=true&get_page_text_markdown=true" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -125,7 +125,7 @@ curl -X GET "https://api.crawleo.dev/api/v1/search?query=python%20tutorials&coun
 import requests
 
 response = requests.get(
-    "https://api.crawleo.dev/api/v1/search",
+    "https://api.crawleo.dev/search",
     params={
         "query": "python tutorials",
         "count": 5,
@@ -147,7 +147,7 @@ const params = new URLSearchParams({
 });
 
 const response = await fetch(
-  `https://api.crawleo.dev/api/v1/search?${params}`,
+  `https://api.crawleo.dev/search?${params}`,
   {
     headers: { "Authorization": "Bearer YOUR_API_KEY" }
   }
@@ -161,7 +161,7 @@ const results = await response.json();
 
 <CodeGroup>
 ```bash cURL
-curl -X GET "https://api.crawleo.dev/api/v1/search?query=news&setLang=de&cc=DE&count=10" \
+curl -X GET "https://api.crawleo.dev/search?query=news&setLang=de&cc=DE&count=10" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -169,7 +169,7 @@ curl -X GET "https://api.crawleo.dev/api/v1/search?query=news&setLang=de&cc=DE&c
 import requests
 
 response = requests.get(
-    "https://api.crawleo.dev/api/v1/search",
+    "https://api.crawleo.dev/search",
     params={
         "query": "news",
         "setLang": "de",

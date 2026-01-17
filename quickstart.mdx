@@ -25,7 +25,7 @@ Use the Search API to perform real-time web searches:
 
 <CodeGroup>
 ```bash cURL
-curl -X GET "https://api.crawleo.dev/api/v1/search?query=artificial%20intelligence&count=5" \
+curl -X GET "https://api.crawleo.dev/search?query=artificial%20intelligence&count=5" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -33,7 +33,7 @@ curl -X GET "https://api.crawleo.dev/api/v1/search?query=artificial%20intelligen
 import requests
 
 response = requests.get(
-    "https://api.crawleo.dev/api/v1/search",
+    "https://api.crawleo.dev/search",
     params={
         "query": "artificial intelligence",
         "count": 5
@@ -49,7 +49,7 @@ print(data)
 
 ```javascript JavaScript
 const response = await fetch(
-  "https://api.crawleo.dev/api/v1/search?query=artificial%20intelligence&count=5",
+  "https://api.crawleo.dev/search?query=artificial%20intelligence&count=5",
   {
     headers: {
       "Authorization": "Bearer YOUR_API_KEY"
@@ -68,7 +68,7 @@ Use the Crawler API to extract content from specific URLs:
 
 <CodeGroup>
 ```bash cURL
-curl -X GET "https://api.crawleo.dev/api/v1/crawler?urls=https://example.com&markdown=true" \
+curl -X GET "https://api.crawleo.dev/crawl?urls=https://example.com&output_format=markdown" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -76,10 +76,10 @@ curl -X GET "https://api.crawleo.dev/api/v1/crawler?urls=https://example.com&mar
 import requests
 
 response = requests.get(
-    "https://api.crawleo.dev/api/v1/crawler",
+    "https://api.crawleo.dev/crawl",
     params={
         "urls": "https://example.com",
-        "markdown": True
+        "output_format": "markdown"
     },
     headers={
         "Authorization": "Bearer YOUR_API_KEY"
@@ -92,7 +92,7 @@ print(data)
 
 ```javascript JavaScript
 const response = await fetch(
-  "https://api.crawleo.dev/api/v1/crawler?urls=https://example.com&markdown=true",
+  "https://api.crawleo.dev/crawl?urls=https://example.com&output_format=markdown",
   {
     headers: {
       "Authorization": "Bearer YOUR_API_KEY"
@@ -111,10 +111,9 @@ Crawleo supports multiple output formats optimized for different use cases:
 
 | Format | Parameter | Best For |
 |--------|-----------|----------|
-| Raw HTML | `raw_html=true` | Full page source with all elements |
-| AI-Enhanced HTML | `get_ai_enhanced_html=true` | Clean HTML without ads and scripts |
-| Plain Text | `get_page_text=true` | Text extraction for processing |
-| Markdown | `markdown=true` | RAG pipelines and LLM consumption |
+| Raw HTML | `output_format=raw_html` | Full page source with all elements |
+| Enhanced HTML | `output_format=enhanced_html` | Clean HTML without ads and scripts |
+| Markdown | `output_format=markdown` | RAG pipelines and LLM consumption |
 
 <Tip>
   For RAG and LLM applications, use **Markdown** output to minimize token usage and improve processing efficiency.
