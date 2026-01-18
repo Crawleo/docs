@@ -29,7 +29,7 @@ GET https://api.crawleo.dev/search
 </ParamField>
 
 <ParamField query="max_pages" type="integer" default="1">
-  Maximum number of search result pages to fetch.
+  Maximum number of search result pages to fetch. **Each page costs 10 credits.**
 </ParamField>
 
 ### Localization Parameters
@@ -189,6 +189,7 @@ A successful response returns search results with optional crawled content:
 
 ```json
 {
+  "success": true,
   "results": [
     {
       "title": "Introduction to Machine Learning",
@@ -198,7 +199,9 @@ A successful response returns search results with optional crawled content:
     }
   ],
   "total_results": 1000,
-  "page": 1
+  "page": 1,
+  "credits_used": 10,
+  "credits_remaining": 9990
 }
 ```
 
@@ -236,6 +239,14 @@ A successful response returns search results with optional crawled content:
 
 <ResponseField name="page" type="integer">
   Current page number.
+</ResponseField>
+
+<ResponseField name="credits_used" type="integer">
+  Number of credits consumed by this request.
+</ResponseField>
+
+<ResponseField name="credits_remaining" type="integer">
+  Your remaining credit balance for the current billing period.
 </ResponseField>
 
 ## Use Cases

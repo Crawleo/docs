@@ -102,12 +102,27 @@ const response = await fetch(
 
 API usage is tracked using credits. Each API call deducts credits from your monthly allowance based on your subscription plan.
 
-| Plan | Credits/Month | Concurrent Requests |
-|------|---------------|---------------------|
-| Free Plan - 1K | 10,000 | 1 |
-| Developer - 10k | 100,000 | 3 |
-| Pro - 100K | 1,000,000 | 5 |
-| Scale 250K | 2,500,000 | 10 |
+### Credit Costs
+
+| API Endpoint | Credits Cost |
+|--------------|-------------|
+| Search API | 10 credits per page of results |
+| Crawl API (no proxy) | 1 credit per page |
+| Crawl API (standard proxy) | 2 credits per page |
+| Crawl API (premium proxy) | 10 credits per page |
+
+### Subscription Plans
+
+| Plan | Credits/Month | Concurrent Requests | Price |
+|------|---------------|---------------------|-------|
+| Free | 10,000 | 5 | $0/month |
+| Developer | 100,000 | 20 | $20/month |
+| Pro | 1,000,000 | 50 | $100/month |
+| Scale | 2,500,000 | 100 | $200/month |
+
+<Card title="Full Pricing Details" icon="coins" href="/credits-pricing">
+  See detailed credit costs and usage examples.
+</Card>
 
 ## Concurrent Request Limits
 

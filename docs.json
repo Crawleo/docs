@@ -32,7 +32,8 @@
             "pages": [
               "index",
               "quickstart",
-              "authentication"
+              "authentication",
+              "credits-pricing"
             ]
           },
           {
@@ -128,7 +129,7 @@
       "robots": "index, follow",
       "googlebot": "index, follow",
       "description": "Crawleo API Documentation - AI-powered web scraping and search API. Extract data from any website with ease.",
-      "keywords": "web scraping, API, web crawling, data extraction, search API, MCP, AI agents",
+      "keywords": "web scraping, API, web crawling, data extraction, search API, MCP, AI agents, API pricing, credits, web crawling API",
       "author": "Crawleo",
       "og:title": "Crawleo Documentation",
       "og:description": "AI-powered web scraping and search API documentation. Learn how to integrate Crawleo into your applications.",

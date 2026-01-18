@@ -21,11 +21,28 @@ When connected via MCP, AI assistants have access to two tools:
 <CardGroup cols={2}>
   <Card title="search_web" icon="magnifying-glass">
     Perform real-time web searches with AI-enhanced results.
+    
+    **Cost:** 10 credits per page of results
   </Card>
   <Card title="crawl_web" icon="spider-web">
     Crawl specific URLs and extract content.
+    
+    **Cost:** 1-10 credits per page (based on proxy settings)
   </Card>
 </CardGroup>
+
+### Credit Costs for MCP Tools
+
+| Tool | Credits Cost |
+|------|-------------|
+| `search_web` | 10 credits per page |
+| `crawl_web` (no proxy) | 1 credit per page |
+| `crawl_web` (standard proxy) | 2 credits per page |
+| `crawl_web` (premium proxy) | 10 credits per page |
+
+<Card title="Credits & Pricing" icon="coins" href="/credits-pricing">
+  View full pricing details and subscription plans.
+</Card>
 
 ## Compatible Platforms
 

@@ -46,11 +46,11 @@ GET https://api.crawleo.dev/crawl
 </ParamField>
 
 <ParamField query="use_proxies" type="boolean" default="false">
-  Use datacenter proxies for the request.
+  Use datacenter proxies for the request. **Costs 2 credits per page** (vs 1 credit without proxy).
 </ParamField>
 
 <ParamField query="use_premium_proxies" type="boolean" default="false">
-  Use residential proxies for the request (higher success rate for protected sites).
+  Use residential proxies for the request (higher success rate for protected sites). **Costs 10 credits per page.**
 </ParamField>
 
 <Warning>
@@ -195,6 +195,7 @@ A successful response returns crawled content for each URL:
 
 ```json
 {
+  "success": true,
   "results": [
     {
       "url": "https://example.com",
@@ -202,7 +203,9 @@ A successful response returns crawled content for each URL:
       "markdown": "# Example Domain\n\nThis domain is for use in illustrative examples...",
       "raw_html": "<!DOCTYPE html><html>...</html>"
     }
-  ]
+  ],
+  "credits_used": 1,
+  "credits_remaining": 9999
 }
 ```
 
@@ -226,6 +229,17 @@ A successful response returns crawled content for each URL:
       Error message if the crawl failed for this URL.
     </ResponseField>
   </Expandable>
+</ResponseField>
+
+<ResponseField name="credits_used" type="integer">
+  Number of credits consumed by this request. Varies based on proxy settings:
+  - No proxy: 1 credit per URL
+  - Standard proxy: 2 credits per URL
+  - Premium proxy: 10 credits per URL
+</ResponseField>
+
+<ResponseField name="credits_remaining" type="integer">
+  Your remaining credit balance for the current billing period.
 </ResponseField>
 
 ## Use Cases

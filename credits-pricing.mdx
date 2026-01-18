@@ -1,0 +1,195 @@
+---
+title: "Credits & Pricing"
+seoTitle: "Crawleo API Pricing - Credits System, Plans & Usage Costs"
+description: "Understand Crawleo's credits-based pricing system, API costs per endpoint, subscription plans, and how to optimize your usage."
+icon: "coins"
+---
+
+## Overview
+
+Crawleo uses a **credits-based billing system** that gives you flexibility and predictability in your API usage. Credits are deducted from your monthly allowance based on which API endpoints you use and their configuration.
+
+## Credit Costs
+
+### Search API
+
+| Operation | Credits Cost |
+|-----------|-------------|
+| Search (per page of results) | **10 credits** |
+
+<Info>
+  Each page of search results (controlled by `max_pages` parameter) costs 10 credits. For example, searching with `max_pages=3` will cost 30 credits.
+</Info>
+
+### Crawl API
+
+| Proxy Setting | Credits Cost |
+|---------------|-------------|
+| No proxy (default) | **1 credit** per page |
+| Standard proxy (`use_proxies=true`) | **2 credits** per page |
+| Premium proxy (`use_premium_proxies=true`) | **10 credits** per page |
+
+<Tip>
+  Use premium proxies only when necessary (e.g., for geo-restricted content or sites with strong bot protection). Default crawling without proxies is the most cost-effective.
+</Tip>
+
+## Subscription Plans
+
+<CardGroup cols={2}>
+  <Card title="Free Plan" icon="gift">
+    **$0/month**
+    
+    - 10,000 credits/month
+    - 5 concurrent requests
+    - Email support
+    - Zero data retention
+  </Card>
+  
+  <Card title="Developer" icon="code">
+    **$20/month** (or $200/year)
+    
+    - 100,000 credits/month
+    - 20 concurrent requests
+    - Email support
+    - Zero data retention
+  </Card>
+  
+  <Card title="Pro" icon="rocket">
+    **$100/month** (or $1,000/year)
+    
+    - 1,000,000 credits/month
+    - 50 concurrent requests
+    - Email + Dedicated support
+    - Zero data retention
+  </Card>
+  
+  <Card title="Scale" icon="chart-line">
+    **$200/month** (or $2,000/year)
+    
+    - 2,500,000 credits/month
+    - 100 concurrent requests
+    - Email + Dedicated support
+    - Zero data retention
+  </Card>
+</CardGroup>
+
+<Card title="View All Plans" icon="arrow-right" href="https://www.crawleo.dev/pricing">
+  Compare plans and subscribe at crawleo.dev/pricing
+</Card>
+
+## Usage Examples
+
+### Search API Examples
+
+| Use Case | Parameters | Credits Used |
+|----------|------------|--------------|
+| Basic search | `query="AI news"` (1 page) | 10 credits |
+| Deep search | `query="AI news"&max_pages=5` | 50 credits |
+| Multi-page research | `query="machine learning"&max_pages=10` | 100 credits |
+
+### Crawl API Examples
+
+| Use Case | Parameters | Credits Used |
+|----------|------------|--------------|
+| Single page crawl | `urls=https://example.com` | 1 credit |
+| Crawl with standard proxy | `urls=https://example.com&use_proxies=true` | 2 credits |
+| Crawl with premium proxy | `urls=https://example.com&use_premium_proxies=true` | 10 credits |
+| 5 pages, no proxy | `urls=url1,url2,url3,url4,url5` | 5 credits |
+| 5 pages, premium proxy | `urls=url1,url2,url3,url4,url5&use_premium_proxies=true` | 50 credits |
+
+## MCP Tool Credit Costs
+
+When using Crawleo via MCP (Model Context Protocol), the same credit costs apply:
+
+| MCP Tool | Credits Cost |
+|----------|--------------|
+| `search_web` | 10 credits per page |
+| `crawl_web` (no proxy) | 1 credit per page |
+| `crawl_web` (standard proxy) | 2 credits per page |
+| `crawl_web` (premium proxy) | 10 credits per page |
+
+## Response Fields
+
+Every API response includes credit usage information:
+
+```json
+{
+  "success": true,
+  "data": { ... },
+  "credits_used": 10,
+  "credits_remaining": 9990
+}
+```
+
+<ResponseField name="credits_used" type="integer">
+  Number of credits consumed by this API call.
+</ResponseField>
+
+<ResponseField name="credits_remaining" type="integer">
+  Your remaining credit balance for the current billing period.
+</ResponseField>
+
+## Monitoring Your Usage
+
+Track your credit usage in the [Crawleo Dashboard](https://www.crawleo.dev/dashboard):
+
+- View current credit balance
+- See usage history and trends
+- Set up usage alerts
+- Monitor API call patterns
+
+## Optimizing Credit Usage
+
+<AccordionGroup>
+  <Accordion title="Use Appropriate Proxy Levels" icon="shield">
+    - Start with **no proxy** (1 credit) for most sites
+    - Use **standard proxy** (2 credits) for basic geo-targeting
+    - Reserve **premium proxy** (10 credits) for protected sites
+  </Accordion>
+  
+  <Accordion title="Optimize Search Depth" icon="magnifying-glass">
+    Only request the number of search pages you need. Each additional page costs 10 credits.
+  </Accordion>
+  
+  <Accordion title="Batch Crawl Requests" icon="layer-group">
+    Crawl multiple URLs in a single request when possible to reduce overhead.
+  </Accordion>
+  
+  <Accordion title="Cache Results" icon="database">
+    Cache crawled content on your side to avoid re-crawling the same URLs.
+  </Accordion>
+</AccordionGroup>
+
+## Rate Limits
+
+In addition to credits, each plan has concurrent request limits:
+
+| Plan | Concurrent Requests |
+|------|---------------------|
+| Free | 5 |
+| Developer | 20 |
+| Pro | 50 |
+| Scale | 100 |
+
+If you exceed your concurrent request limit, you'll receive a `429` response:
+
+```json
+{
+  "error": {
+    "code": "CONCURRENT_LIMIT_EXCEEDED",
+    "message": "Concurrent request limit reached (5). Please wait for other requests to finish."
+  }
+}
+```
+
+## Upgrading Your Plan
+
+Need more credits? [Upgrade your plan](https://www.crawleo.dev/pricing) at any time:
+
+- Upgrades take effect immediately
+- Unused credits don't roll over
+- Pro-rated billing for mid-cycle upgrades
+
+<Card title="Contact Sales" icon="envelope" href="mailto:support@crawleo.dev">
+  Need a custom plan or have questions? Contact our sales team.
+</Card>
