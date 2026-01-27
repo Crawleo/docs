@@ -7,7 +7,7 @@
     "light": "#6EE7F9",
     "dark": "#D946EF"
   },
-  "favicon": "/images/favicon.ico",
+  "favicon": "/images/favicon.svg",
   "navigation": {
     "global": {
       "anchors": [
@@ -81,7 +81,11 @@
       }
     ]
   },
-  "logo": "/images/crawleo_logo-512x512.jpeg",
+  "logo": {
+    "light": "/images/light mode logo.svg",
+    "dark": "/images/dark mode logo.svg",
+    "href": "https://www.crawleo.dev/"
+  },
   "navbar": {
     "links": [
       {
@@ -153,5 +157,8 @@
   },
   "api": {
     "baseUrl": "https://api.crawleo.dev"
+  },
+  "background": {
+    "image": "/images/final_banner.png"
   }
 }
