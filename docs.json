@@ -3,8 +3,8 @@
   "theme": "mint",
   "name": "Crawleo",
   "colors": {
-    "primary": "#7B3FE4",
-    "light": "#6EE7F9",
+    "primary": "#742dee",
+    "light": "#9665e4",
     "dark": "#D946EF"
   },
   "favicon": "/images/favicon.svg",
