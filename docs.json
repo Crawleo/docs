@@ -12,11 +12,6 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Crawleo Homepage",
-          "icon": "code",
-          "href": "https://www.crawleo.dev/"
-        },
-        {
           "anchor": "Blog",
           "icon": "newspaper",
           "href": "https://www.crawleo.dev/blog"
