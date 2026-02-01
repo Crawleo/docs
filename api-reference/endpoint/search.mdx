@@ -189,64 +189,112 @@ A successful response returns search results with optional crawled content:
 
 ```json
 {
-  "success": true,
-  "results": [
-    {
-      "title": "Introduction to Machine Learning",
-      "url": "https://example.com/ml-intro",
-      "snippet": "A comprehensive guide to machine learning...",
-      "markdown": "# Introduction to Machine Learning\n\nMachine learning is..."
-    }
-  ],
-  "total_results": 1000,
-  "page": 1,
-  "credits_used": 10,
-  "credits_remaining": 9990
+  "status": "success",
+  "data": {
+    "query": "Now in Android",
+    "pages_fetched": 1,
+    "time_used": 1.2119622230529785,
+    "pages": {
+      "1": {
+        "total_results": "About 41,100 results",
+        "search_results": [
+          {
+            "title": "GitHub - android/nowinandroid: A fully functional Android app built ...",
+            "link": "https://github.com/android/nowinandroid",
+            "date": null,
+            "snippet": "Learn how this app was designed and built in the design case study, architecture learning journey and modularization learning journey.",
+            "source": "Github"
+          },
+          {
+            "title": "Now in Android | Android Developers",
+            "link": "https://developer.android.com/series/now-in-android",
+            "date": "Aug 8, 2025",
+            "snippet": "Learn about the latest features and best practices of Android development with Now in Android app and podcast.",
+            "source": "Android Developers"
+          }
+        ],
+        "related_queries": [
+          "latest Android now",
+          "Android now gg",
+          "what's new in Android development"
+        ],
+        "page_content": {
+          "enhanced_html": "<body>...</body>",
+          "page_markdown": "# Search Results\n..."
+        }
+      }
+    },
+    "credits": 10
+  }
 }
 ```
 
-<ResponseField name="results" type="array">
-  Array of search result objects.
+<ResponseField name="status" type="string">
+  Status of the response (`success` or `error`).
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  Main data object containing search results and metadata.
   
-  <Expandable title="Result object properties">
-    <ResponseField name="title" type="string">
-      Title of the search result.
+  <Expandable title="Data object properties">
+    <ResponseField name="query" type="string">
+      The search query that was executed.
     </ResponseField>
-    <ResponseField name="url" type="string">
-      URL of the search result.
+    <ResponseField name="pages_fetched" type="integer">
+      Number of pages fetched from the search engine.
     </ResponseField>
-    <ResponseField name="snippet" type="string">
-      Short description/snippet from the search engine.
+    <ResponseField name="time_used" type="number">
+      Time taken to complete the request in seconds.
     </ResponseField>
-    <ResponseField name="raw_html" type="string">
-      Full HTML source (if `get_raw_html=true`).
+    <ResponseField name="pages" type="object">
+      Object containing results keyed by page number (e.g., "1", "2").
+      
+      <Expandable title="Page object properties">
+        <ResponseField name="total_results" type="string">
+          Estimated total number of results from the search engine.
+        </ResponseField>
+        <ResponseField name="search_results" type="array">
+          Array of search result objects.
+          
+          <Expandable title="Search result properties">
+            <ResponseField name="title" type="string">
+              Title of the search result.
+            </ResponseField>
+            <ResponseField name="link" type="string">
+              URL of the search result.
+            </ResponseField>
+            <ResponseField name="date" type="string | null">
+              Publication date (if available).
+            </ResponseField>
+            <ResponseField name="snippet" type="string">
+              Short description/snippet from the search engine.
+            </ResponseField>
+            <ResponseField name="source" type="string">
+              Source name or domain of the result.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+        <ResponseField name="related_queries" type="array">
+          Array of suggested related search queries.
+        </ResponseField>
+        <ResponseField name="page_content" type="object">
+          Page content (when output format options are enabled).
+          
+          <Expandable title="Page content properties">
+            <ResponseField name="enhanced_html" type="string">
+              Clean HTML with ads/scripts removed (if `get_ai_enhanced_html=true`).
+            </ResponseField>
+            <ResponseField name="page_markdown" type="string">
+              Markdown formatted content (if `get_page_text_markdown=true`).
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
     </ResponseField>
-    <ResponseField name="ai_enhanced_html" type="string">
-      Clean HTML content (if `get_ai_enhanced_html=true`).
-    </ResponseField>
-    <ResponseField name="text" type="string">
-      Plain text content (if `get_page_text=true`).
-    </ResponseField>
-    <ResponseField name="markdown" type="string">
-      Markdown content (if `get_page_text_markdown=true`).
+    <ResponseField name="credits" type="integer">
+      Number of credits consumed by this request.
     </ResponseField>
   </Expandable>
-</ResponseField>
-
-<ResponseField name="total_results" type="integer">
-  Estimated total number of results available.
-</ResponseField>
-
-<ResponseField name="page" type="integer">
-  Current page number.
-</ResponseField>
-
-<ResponseField name="credits_used" type="integer">
-  Number of credits consumed by this request.
-</ResponseField>
-
-<ResponseField name="credits_remaining" type="integer">
-  Your remaining credit balance for the current billing period.
 </ResponseField>
 
 ## Use Cases
@@ -264,3 +312,6 @@ A successful response returns search results with optional crawled content:
     Use `get_ai_enhanced_html=true` to collect clean content from multiple sources without ads and scripts.
   </Accordion>
 </AccordionGroup>
+
+in docs/api-reference/endpoint/search.mdx the response isn't correct . fix it . the real output example:
+
