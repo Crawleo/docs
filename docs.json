@@ -153,10 +153,16 @@
     "og:site_name": "Crawleo Documentation",
     "og:type": "website",
     "twitter:site": "@crawleo_dev",
-    "canonical": "https://docs.crawleo.dev"
+    "canonical": "https://docs.crawleo.dev",
+    "timestamp": true
   },
   "api": {
-    "baseUrl": "https://api.crawleo.dev"
+    "baseUrl": "https://api.crawleo.dev",
+    "playground": {
+      "proxy": true,
+      "display": "interactive"
+    },
+    "openapi": "/openapi.json"
   },
   "background": {
     "image": "/images/final_banner.png"

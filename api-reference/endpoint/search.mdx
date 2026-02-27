@@ -24,11 +24,11 @@ GET https://api.crawleo.dev/search
 
 ### Pagination Parameters
 
-<ParamField query="count" type="integer" default="10">
+<ParamField query="count" default="10" type="integer">
   Number of results to return per page (1-50).
 </ParamField>
 
-<ParamField query="max_pages" type="integer" default="1">
+<ParamField query="max_pages" default="1" type="integer">
   Maximum number of search result pages to fetch. **Each page costs 10 credits.**
 </ParamField>
 
@@ -48,31 +48,31 @@ GET https://api.crawleo.dev/search
 
 ### Device Simulation
 
-<ParamField query="device" type="string" default="desktop">
+<ParamField query="device" default="desktop" type="string">
   Device type to simulate. Options: `desktop`, `mobile`, `tablet`.
 </ParamField>
 
 ### Output Format Parameters
 
-<ParamField query="get_raw_html" type="boolean" default="false">
+<ParamField query="get_raw_html" default="false" type="boolean">
   Return the original HTML source of each result page.
 </ParamField>
 
-<ParamField query="get_ai_enhanced_html" type="boolean" default="false">
+<ParamField query="get_ai_enhanced_html" default="false" type="boolean">
   Return clean HTML with ads, scripts, and tracking removed.
 </ParamField>
 
-<ParamField query="get_page_text" type="boolean" default="false">
+<ParamField query="get_page_text" default="false" type="boolean">
   Return plain text content extracted from each result page.
 </ParamField>
 
-<ParamField query="get_page_text_markdown" type="boolean" default="false">
+<ParamField query="get_page_text_markdown" default="false" type="boolean">
   Return content as structured Markdown (recommended for RAG/LLM).
 </ParamField>
 
 ### Auto-Crawling
 
-<ParamField query="auto_crawling" type="boolean" default="false">
+<ParamField query="auto_crawling" default="false" type="boolean">
   Automatically crawl each search result URL and include page content.
 </ParamField>
 
@@ -81,106 +81,54 @@ GET https://api.crawleo.dev/search
 ### Basic Search
 
 <CodeGroup>
+
 ```bash cURL
 curl -X GET "https://api.crawleo.dev/search?query=machine%20learning&count=10" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
+
 ```python Python
-import requests
-
-response = requests.get(
-    "https://api.crawleo.dev/search",
-    params={
-        "query": "machine learning",
-        "count": 10
-    },
-    headers={"Authorization": "Bearer YOUR_API_KEY"}
-)
-
-results = response.json()
 ```
+
 
 ```javascript JavaScript
-const response = await fetch(
-  "https://api.crawleo.dev/search?query=machine%20learning&count=10",
-  {
-    headers: { "Authorization": "Bearer YOUR_API_KEY" }
-  }
-);
-
-const results = await response.json();
 ```
+
 </CodeGroup>
 
 ### Search with Auto-Crawling and Markdown Output
 
 <CodeGroup>
+
 ```bash cURL
 curl -X GET "https://api.crawleo.dev/search?query=python%20tutorials&count=5&auto_crawling=true&get_page_text_markdown=true" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
+
 ```python Python
-import requests
-
-response = requests.get(
-    "https://api.crawleo.dev/search",
-    params={
-        "query": "python tutorials",
-        "count": 5,
-        "auto_crawling": True,
-        "get_page_text_markdown": True
-    },
-    headers={"Authorization": "Bearer YOUR_API_KEY"}
-)
-
-results = response.json()
 ```
+
 
 ```javascript JavaScript
-const params = new URLSearchParams({
-  query: "python tutorials",
-  count: "5",
-  auto_crawling: "true",
-  get_page_text_markdown: "true"
-});
-
-const response = await fetch(
-  `https://api.crawleo.dev/search?${params}`,
-  {
-    headers: { "Authorization": "Bearer YOUR_API_KEY" }
-  }
-);
-
-const results = await response.json();
 ```
+
 </CodeGroup>
 
 ### Localized Search
 
 <CodeGroup>
+
 ```bash cURL
 curl -X GET "https://api.crawleo.dev/search?query=news&setLang=de&cc=DE&count=10" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
+
 ```python Python
-import requests
-
-response = requests.get(
-    "https://api.crawleo.dev/search",
-    params={
-        "query": "news",
-        "setLang": "de",
-        "cc": "DE",
-        "count": 10
-    },
-    headers={"Authorization": "Bearer YOUR_API_KEY"}
-)
-
-results = response.json()
 ```
+
 </CodeGroup>
 
 ## Response
@@ -235,7 +183,7 @@ A successful response returns search results with optional crawled content:
 
 <ResponseField name="data" type="object">
   Main data object containing search results and metadata.
-  
+
   <Expandable title="Data object properties">
     <ResponseField name="query" type="string">
       The search query that was executed.
@@ -248,14 +196,14 @@ A successful response returns search results with optional crawled content:
     </ResponseField>
     <ResponseField name="pages" type="object">
       Object containing results keyed by page number (e.g., "1", "2").
-      
+
       <Expandable title="Page object properties">
         <ResponseField name="total_results" type="string">
           Estimated total number of results from the search engine.
         </ResponseField>
         <ResponseField name="search_results" type="array">
           Array of search result objects.
-          
+
           <Expandable title="Search result properties">
             <ResponseField name="title" type="string">
               Title of the search result.
@@ -279,7 +227,7 @@ A successful response returns search results with optional crawled content:
         </ResponseField>
         <ResponseField name="page_content" type="object">
           Page content (when output format options are enabled).
-          
+
           <Expandable title="Page content properties">
             <ResponseField name="enhanced_html" type="string">
               Clean HTML with ads/scripts removed (if `get_ai_enhanced_html=true`).
@@ -300,18 +248,15 @@ A successful response returns search results with optional crawled content:
 ## Use Cases
 
 <AccordionGroup>
-  <Accordion title="RAG Pipeline" icon="brain">
+  <Accordion icon="brain" title="RAG Pipeline">
     Use `auto_crawling=true` with `get_page_text_markdown=true` to fetch search results and their full content in a single request, formatted for LLM consumption.
   </Accordion>
-  
-  <Accordion title="Research Agent" icon="robot">
+  <Accordion icon="robot" title="Research Agent">
     Combine with localization parameters to gather region-specific information for AI research agents.
   </Accordion>
-  
-  <Accordion title="Content Aggregation" icon="layer-group">
+  <Accordion icon="layer-group" title="Content Aggregation">
     Use `get_ai_enhanced_html=true` to collect clean content from multiple sources without ads and scripts.
   </Accordion>
 </AccordionGroup>
 
 in docs/api-reference/endpoint/search.mdx the response isn't correct . fix it . the real output example:
-
