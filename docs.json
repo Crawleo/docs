@@ -12,14 +12,14 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Blog",
-          "icon": "newspaper",
-          "href": "https://www.crawleo.dev/blog"
-        },
-        {
           "anchor": "Dashboard",
           "icon": "newspaper",
           "href": "https://www.crawleo.dev/dashboard"
+        },
+        {
+          "anchor": "Blog",
+          "icon": "newspaper",
+          "href": "https://www.crawleo.dev/blog"
         }
       ]
     },
