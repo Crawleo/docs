@@ -14,14 +14,14 @@ Crawleo provides multiple output formats optimized for different use cases. Choo
   <Card title="Raw HTML" icon="code">
     Original page source with all elements intact.
   </Card>
-  <Card title="AI-Enhanced HTML" icon="sparkles">
-    Clean HTML with ads, scripts, and tracking removed.
+  <Card title="Enhanced HTML" icon="sparkles">
+    Clean HTML with ads, scripts, and tracking removed (default).
   </Card>
   <Card title="Plain Text" icon="file-lines">
     Extracted text content without HTML markup.
   </Card>
   <Card title="Markdown" icon="markdown">
-    Structured Markdown optimized for LLMs.
+    Structured Markdown optimized for LLMs (default).
   </Card>
 </CardGroup>
 
@@ -31,7 +31,7 @@ Crawleo provides multiple output formats optimized for different use cases. Choo
 
 Returns the complete, unmodified HTML source of the page.
 
-**Parameter:** `output_format=raw_html` (Crawler API) or `get_raw_html=true` (Search API)
+**Parameter:** `raw_html=true`
 
 **Best for:**
 - Full page preservation
@@ -59,11 +59,11 @@ Returns the complete, unmodified HTML source of the page.
 
 ---
 
-### AI-Enhanced HTML
+### Enhanced HTML
 
-Returns cleaned HTML with ads, tracking scripts, and unnecessary elements removed.
+Returns cleaned HTML with ads, tracking scripts, and unnecessary elements removed. **Enabled by default.**
 
-**Parameter:** `get_ai_enhanced_html=true` (Search API)
+**Parameter:** `enhanced_html=true` (default)
 
 **Best for:**
 - Cleaner content processing
@@ -84,7 +84,7 @@ Returns cleaned HTML with ads, tracking scripts, and unnecessary elements remove
 
 Returns extracted text content without any HTML markup.
 
-**Parameter:** `get_page_text=true` (Search API)
+**Parameter:** `page_text=true`
 
 **Best for:**
 - Simple text processing
@@ -102,9 +102,9 @@ Content here...
 
 ### Markdown
 
-Returns content converted to structured Markdown format.
+Returns content converted to structured Markdown format. **Enabled by default.**
 
-**Parameter:** `output_format=markdown` (Crawler API) or `get_page_text_markdown=true` (Search API)
+**Parameter:** `markdown=true` (default)
 
 **Best for:**
 - RAG pipelines
@@ -128,7 +128,7 @@ More content with [links](https://example.com) and **formatting**.
 | Format | Token Usage | Structure | Noise Level | Best For |
 |--------|-------------|-----------|-------------|----------|
 | Raw HTML | High | Full | High | Custom parsing |
-| AI-Enhanced HTML | Medium | Partial | Low | Clean extraction |
+| Enhanced HTML | Medium | Partial | Low | Clean extraction |
 | Plain Text | Low | None | Low | Simple processing |
 | Markdown | Low | Preserved | Minimal | LLM/RAG |
 
@@ -144,7 +144,7 @@ More content with [links](https://example.com) and **formatting**.
     ```python
     response = requests.get(
         "https://api.crawleo.dev/crawl",
-        params={"urls": url, "output_format": "markdown"},
+        params={"urls": url, "markdown": True},
         headers={"Authorization": f"Bearer {api_key}"}
     )
     ```
@@ -152,22 +152,27 @@ More content with [links](https://example.com) and **formatting**.
   
   <Accordion title="LLM Context" icon="message">
     Use **Markdown** or **Plain Text**:
-    - Markdown if structure matters
+    - Markdown if structure matters (enabled by default)
     - Plain text for maximum token efficiency
     
     ```python
-    # For structured content
-    params = {"query": query, "get_page_text_markdown": True}
+    # For structured content (default)
+    params = {"urls": url, "markdown": True}
     
     # For simple text
-    params = {"query": query, "get_page_text": True}
+    params = {"urls": url, "page_text": True, "markdown": False}
     ```
   </Accordion>
   
   <Accordion title="Web Scraping" icon="spider">
-    Use **Raw HTML** or **AI-Enhanced HTML**:
+    Use **Raw HTML** or **Enhanced HTML**:
     - Raw HTML for full control
-    - AI-Enhanced HTML for cleaner starting point
+    - Enhanced HTML for cleaner starting point (default)
+    
+    ```python
+    # Get both formats
+    params = {"urls": url, "raw_html": True, "enhanced_html": True}
+    ```
   </Accordion>
   
   <Accordion title="Content Analysis" icon="chart-bar">
@@ -182,12 +187,12 @@ More content with [links](https://example.com) and **formatting**.
 You can request multiple formats in a single request:
 
 ```bash
-curl -X GET "https://api.crawleo.dev/search?query=example&get_raw_html=true&get_page_text_markdown=true" \
+curl -X GET "https://api.crawleo.dev/crawl?urls=https://example.com&raw_html=true&enhanced_html=true&markdown=true&page_text=true" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
-The response will include both formats for each result.
+The response will include all requested formats.
 
 <Tip>
-  **Pro tip:** Start with Markdown for most AI applications. It provides the best balance of structure and token efficiency.
+  **Pro tip:** Markdown and Enhanced HTML are enabled by default. You only need to explicitly set parameters if you want to disable them or add additional formats.
 </Tip>

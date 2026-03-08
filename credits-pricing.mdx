@@ -23,14 +23,17 @@ Crawleo uses a **credits-based billing system** that gives you flexibility and p
 
 ### Crawl API
 
-| Proxy Setting | Credits Cost |
-|---------------|-------------|
-| No proxy (default) | **1 credit** per page |
-| Standard proxy (`use_proxies=true`) | **2 credits** per page |
-| Premium proxy (`use_premium_proxies=true`) | **10 credits** per page |
+| Rendering Mode | Credits Cost |
+|----------------|-------------|
+| HTTP request (`render_js=false`) | **1 credit** per URL |
+| Browser rendering (`render_js=true`) | **10 credits** per URL |
+
+<Info>
+  Failed requests cost **0 credits**. You only pay for successful responses.
+</Info>
 
 <Tip>
-  Use premium proxies only when necessary (e.g., for geo-restricted content or sites with strong bot protection). Default crawling without proxies is the most cost-effective.
+  Use browser rendering (`render_js=true`) only for JavaScript-heavy sites that require dynamic content. Default HTTP requests are the most cost-effective.
 </Tip>
 
 ## Subscription Plans
@@ -39,8 +42,9 @@ Crawleo uses a **credits-based billing system** that gives you flexibility and p
   <Card title="Free Plan" icon="gift">
     **$0/month**
     
-    - 10,000 credits/month
-    - 5 concurrent requests
+    - 500 credits/month
+    - 500 page crawls
+    - 50 searches
     - Email support
     - Zero data retention
   </Card>
@@ -90,23 +94,18 @@ Crawleo uses a **credits-based billing system** that gives you flexibility and p
 ### Crawl API Examples
 
 | Use Case | Parameters | Credits Used |
-|----------|------------|--------------|
+|----------|------------||--------------|
 | Single page crawl | `urls=https://example.com` | 1 credit |
-| Crawl with standard proxy | `urls=https://example.com&use_proxies=true` | 2 credits |
-| Crawl with premium proxy | `urls=https://example.com&use_premium_proxies=true` | 10 credits |
-| 5 pages, no proxy | `urls=url1,url2,url3,url4,url5` | 5 credits |
-| 5 pages, premium proxy | `urls=url1,url2,url3,url4,url5&use_premium_proxies=true` | 50 credits |
-
-## MCP Tool Credit Costs
-
+| Crawl with JavaScript | `urls=https://example.com&render_js=true` | 10 credits |
+| 5 pages, HTTP only | `urls=url1,url2,url3,url4,url5` | 5 credits |
+| 5 pages, with JS rendering | `urls=url1,url2,url3,url4,url5&render_js=true` | 50 credits |
 When using Crawleo via MCP (Model Context Protocol), the same credit costs apply:
 
 | MCP Tool | Credits Cost |
 |----------|--------------|
 | `search_web` | 10 credits per page |
-| `crawl_web` (no proxy) | 1 credit per page |
-| `crawl_web` (standard proxy) | 2 credits per page |
-| `crawl_web` (premium proxy) | 10 credits per page |
+| `crawl_web` (HTTP request) | 1 credit per URL |
+| `crawl_web` (browser rendering) | 10 credits per URL |
 
 ## Response Fields
 
@@ -141,10 +140,10 @@ Track your credit usage in the [Crawleo Dashboard](https://www.crawleo.dev/dashb
 ## Optimizing Credit Usage
 
 <AccordionGroup>
-  <Accordion title="Use Appropriate Proxy Levels" icon="shield">
-    - Start with **no proxy** (1 credit) for most sites
-    - Use **standard proxy** (2 credits) for basic geo-targeting
-    - Reserve **premium proxy** (10 credits) for protected sites
+  <Accordion title="Use Appropriate Rendering Mode" icon="browser">
+    - Start with **HTTP requests** (1 credit) for most static sites
+    - Use **browser rendering** (10 credits) only for JavaScript-heavy sites
+    - Test with HTTP first before enabling JavaScript rendering
   </Accordion>
   
   <Accordion title="Optimize Search Depth" icon="magnifying-glass">

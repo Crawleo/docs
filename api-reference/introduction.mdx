@@ -52,12 +52,12 @@ Both APIs support multiple output formats optimized for different use cases:
 
 | Format | Crawler Parameter | Description | Best For |
 |--------|-------------------|-------------|----------|
-| **Raw HTML** | `output_format=raw_html` | Original page source | Full content preservation |
-| **Enhanced HTML** | `output_format=enhanced_html` | Clean HTML (no ads, scripts) | Cleaner processing |
-| **Markdown** | `output_format=markdown` | Structured markdown | RAG pipelines, LLMs |
+| **Raw HTML** | `raw_html=true` | Original page source | Full content preservation |
+| **Enhanced HTML** | `enhanced_html=true` (default) | Clean HTML (no ads, scripts) | Cleaner processing |
+| **Markdown** | `markdown=true` (default) | Structured markdown | RAG pipelines, LLMs |
 
 <Tip>
-  Use **Markdown** output for AI/LLM applications to minimize token usage.
+  Use **Markdown** output (enabled by default) for AI/LLM applications to minimize token usage.
 </Tip>
 
 ## Response Format
