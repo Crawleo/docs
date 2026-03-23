@@ -72,10 +72,7 @@
           },
           {
             "group": "Endpoints",
-            "pages": [
-              "api-reference/endpoint/search",
-              "api-reference/endpoint/crawler"
-            ]
+            "openapi": "openapi.json"
           }
         ]
       }
@@ -158,9 +155,16 @@
   },
   "api": {
     "baseUrl": "https://api.crawleo.dev",
+    "url": "full",
     "playground": {
-      "proxy": true,
+      "proxy": false,
       "display": "interactive"
+    },
+    "examples": {
+      "languages": ["bash", "python", "javascript"],
+      "defaults": "required",
+      "prefill": true,
+      "autogenerate": true
     },
     "openapi": "/openapi.json"
   },

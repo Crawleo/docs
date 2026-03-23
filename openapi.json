@@ -1,0 +1,523 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Crawleo API",
+    "description": "AI-powered web scraping and search API. Extract data from any website with ease.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Crawleo Support",
+      "email": "support@crawleo.dev",
+      "url": "https://www.crawleo.dev"
+    },
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.crawleo.dev",
+      "description": "Production"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Bearer token authentication using your API key. Format: Bearer YOUR_API_KEY"
+      },
+      "apiKeyHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key",
+        "description": "API key for authentication"
+      }
+    },
+    "schemas": {
+      "SearchResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success",
+            "description": "Status of the response (success or error)"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "example": "machine learning",
+                "description": "The search query that was executed"
+              },
+              "pages_fetched": {
+                "type": "integer",
+                "example": 1,
+                "description": "Number of pages fetched from the search engine"
+              },
+              "time_used": {
+                "type": "number",
+                "example": 1.2119622230529785,
+                "description": "Time taken to complete the request in seconds"
+              },
+              "pages": {
+                "type": "object",
+                "description": "Object containing results keyed by page number"
+              },
+              "credits": {
+                "type": "integer",
+                "example": 10,
+                "description": "Credits used for this request"
+              }
+            }
+          }
+        }
+      },
+      "CrawlResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success",
+            "description": "Status of the response (success or error)"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "The URL that was crawled"
+                },
+                "status_code": {
+                  "type": "integer",
+                  "description": "HTTP status code"
+                },
+                "raw_html": {
+                  "type": "string",
+                  "description": "Raw HTML content (if requested)"
+                },
+                "enhanced_html": {
+                  "type": "string",
+                  "description": "Cleaned HTML with ads and scripts removed"
+                },
+                "page_text": {
+                  "type": "string",
+                  "description": "Plain text extraction of the page"
+                },
+                "markdown": {
+                  "type": "string",
+                  "description": "Markdown conversion of the page content"
+                },
+                "screenshot": {
+                  "type": "string",
+                  "description": "Base64 encoded screenshot (if requested)"
+                }
+              }
+            }
+          },
+          "credits_used": {
+            "type": "integer",
+            "description": "Total credits used for this request"
+          },
+          "credits_remaining": {
+            "type": "integer",
+            "description": "Remaining credits after this request"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "example": "INVALID_API_KEY",
+                "description": "Error code"
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid or missing API key",
+                "description": "Human-readable error message"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    },
+    {
+      "apiKeyHeader": []
+    }
+  ],
+  "paths": {
+    "/search": {
+      "get": {
+        "summary": "Search API",
+        "description": "Real-time web search with optional automatic crawling of search results. Perfect for AI applications that need fresh web data.",
+        "operationId": "search",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "The search query string",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "machine learning tutorials"
+            }
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Number of results to return per page (1-50)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1,
+              "maximum": 50
+            }
+          },
+          {
+            "name": "max_pages",
+            "in": "query",
+            "description": "Maximum number of search result pages to fetch. Each page costs 10 credits.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "setLang",
+            "in": "query",
+            "description": "Language code for search results (e.g., en, es, fr, de)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "en"
+            }
+          },
+          {
+            "name": "cc",
+            "in": "query",
+            "description": "Country code for search results (e.g., US, GB, DE)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "US"
+            }
+          },
+          {
+            "name": "geolocation",
+            "in": "query",
+            "description": "Geographic location for localized results",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "us"
+            }
+          },
+          {
+            "name": "device",
+            "in": "query",
+            "description": "Device type to simulate (desktop, mobile, tablet)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "desktop",
+              "enum": ["desktop", "mobile", "tablet"]
+            }
+          },
+          {
+            "name": "get_raw_html",
+            "in": "query",
+            "description": "Return the original HTML source of each result page",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "get_ai_enhanced_html",
+            "in": "query",
+            "description": "Return clean HTML with ads, scripts, and tracking removed",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "get_page_text",
+            "in": "query",
+            "description": "Return plain text content extracted from each result page",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "get_page_text_markdown",
+            "in": "query",
+            "description": "Return content as structured Markdown (recommended for RAG/LLM)",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "auto_crawling",
+            "in": "query",
+            "description": "Automatically crawl each search result URL and include page content",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful search response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                },
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "query": "machine learning",
+                    "pages_fetched": 1,
+                    "time_used": 1.2119622230529785,
+                    "pages": {
+                      "1": {
+                        "total_results": "About 1,230,000 results",
+                        "search_results": [
+                          {
+                            "title": "Machine Learning - Wikipedia",
+                            "link": "https://en.wikipedia.org/wiki/Machine_learning",
+                            "date": null,
+                            "snippet": "Machine learning is a branch of artificial intelligence...",
+                            "source": "Wikipedia"
+                          }
+                        ]
+                      }
+                    },
+                    "credits": 10
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Credits exhausted or concurrent request limit reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/crawl": {
+      "get": {
+        "summary": "Crawler API",
+        "description": "Direct URL crawling with JavaScript rendering support. Ideal for extracting content from single pages or multiple URLs in a single request.",
+        "operationId": "crawl",
+        "parameters": [
+          {
+            "name": "urls",
+            "in": "query",
+            "description": "URL(s) to crawl. Can be a single URL or comma-separated list",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "https://example.com"
+            }
+          },
+          {
+            "name": "render_js",
+            "in": "query",
+            "description": "Enable browser rendering for JavaScript-heavy sites",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "geolocation",
+            "in": "query",
+            "description": "ISO 3166-1 alpha-2 country code for geolocation (e.g., us, gb, de)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "us"
+            }
+          },
+          {
+            "name": "raw_html",
+            "in": "query",
+            "description": "Return the raw HTML as-is from the page source",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "enhanced_html",
+            "in": "query",
+            "description": "Return cleaned/sanitized HTML with ads, scripts, and tracking removed",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "page_text",
+            "in": "query",
+            "description": "Return plain-text extraction of the page content",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "markdown",
+            "in": "query",
+            "description": "Return markdown conversion (recommended for RAG/LLM applications)",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "screenshot",
+            "in": "query",
+            "description": "Capture a screenshot of the page. Only available when render_js=true",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "screenshot_full_page",
+            "in": "query",
+            "description": "Capture full-page screenshot vs viewport only",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful crawl response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrawlResponse"
+                },
+                "example": {
+                  "status": "success",
+                  "data": [
+                    {
+                      "url": "https://example.com",
+                      "status_code": 200,
+                      "enhanced_html": "<html>...</html>",
+                      "markdown": "# Example Domain\n\nThis domain is for use in examples..."
+                    }
+                  ],
+                  "credits_used": 1,
+                  "credits_remaining": 999
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid parameters or URLs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Credits exhausted or concurrent request limit reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Search",
+      "description": "Real-time web search endpoints"
+    },
+    {
+      "name": "Crawler",
+      "description": "Direct URL crawling endpoints"
+    }
+  ]
+}
