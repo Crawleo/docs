@@ -6,7 +6,7 @@ api: "GET /search"
 
 ## Overview
 
-The Search API provides real-time web search with optional automatic crawling of search results. Perfect for AI applications that need fresh web data.
+The Search API provides real-time web search with optional automatic crawling of search results. It now supports granular control over which SERP enrichments are extracted, giving you precise control over response content. By default, page content formats are disabled, making responses lighter and more predictable.
 
 ## Endpoint
 
@@ -60,7 +60,29 @@ GET https://api.crawleo.dev/search
   Device type to simulate. Options: `desktop`, `mobile`, `tablet`.
 </ParamField>
 
-### Output Format Parameters
+### SERP Enrichment Toggles
+
+<ParamField query="include_copilot_answers" default="true" type="boolean">
+  Include Copilot AI-generated answers in the SERP results.
+</ParamField>
+
+<ParamField query="include_people_also_ask" default="true" type="boolean">
+  Include "People Also Ask" question cards in the results.
+</ParamField>
+
+<ParamField query="include_related_queries" default="true" type="boolean">
+  Include related search queries suggestions.
+</ParamField>
+
+<ParamField query="include_sidebar" default="true" type="boolean">
+  Include sidebar data (knowledge panels, local results, etc.).
+</ParamField>
+
+<ParamField query="include_direct_answers" default="true" type="boolean">
+  Include direct answer boxes and instant answers.
+</ParamField>
+
+### Page Content Format Parameters
 
 <ParamField query="get_raw_html" default="false" type="boolean">
   Return the original HTML source of each result page.
@@ -253,6 +275,23 @@ A successful response returns search results with optional crawled content:
   </Expandable>
 </ResponseField>
 
+## Important Updates
+
+<Callout type="info" title="New SERP Extraction Controls">
+  This endpoint now provides granular control over SERP enrichments through five boolean query parameters:
+  - `include_copilot_answers` - Control AI-generated answer cards
+  - `include_people_also_ask` - Control question suggestions
+  - `include_related_queries` - Control related search queries
+  - `include_sidebar` - Control sidebar data and knowledge panels
+  - `include_direct_answers` - Control instant answer boxes
+
+  Advanced SERP features default to `true`, allowing you to selectively disable them as needed.
+</Callout>
+
+<Callout type="warning" title="Page Content Defaults Changed">
+  **Breaking Change**: `enhanced_html` and `markdown` now default to `false`. To receive page content, explicitly set `get_ai_enhanced_html=true` and/or `get_page_text_markdown=true` in your request. This makes default responses leaner and more focused on core search results.
+</Callout>
+
 ## Use Cases
 
 <AccordionGroup>
@@ -264,6 +303,9 @@ A successful response returns search results with optional crawled content:
   </Accordion>
   <Accordion icon="layer-group" title="Content Aggregation">
     Use `get_ai_enhanced_html=true` to collect clean content from multiple sources without ads and scripts.
+  </Accordion>
+  <Accordion icon="toggle-left" title="Fine-Grained SERP Control">
+    Use the SERP enrichment toggles to customize which advanced search features are extracted. For example, disable `include_people_also_ask=false` if you only need core results and related queries.
   </Accordion>
 </AccordionGroup>
 
