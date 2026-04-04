@@ -2,12 +2,12 @@
 title: "Search API"
 seoTitle: "Crawleo Search API - Real-Time Web Search with SERP Extraction"
 description: "Real-time web search API with granular SERP enrichment controls, advanced filtering, page content extraction, and support for multiple output formats. Perfect for RAG pipelines and AI agents."
-api: "GET /search"
+api: "GET https://api.crawleo.dev/search"
 ---
 
 ## Overview
 
-The Search API provides real-time web search with optional automatic crawling of search results. It now supports granular control over which SERP enrichments are extracted, giving you precise control over response content. By default, page content formats are disabled, making responses lighter and more predictable.
+The Search API provides real-time web search with optional automatic crawling of search results. It supports granular control over which SERP enrichments are extracted, giving you precise control over response content. By default, page content formats are disabled, making responses lighter and more predictable.
 
 ## Endpoint
 
@@ -19,10 +19,10 @@ GET https://api.crawleo.dev/search
 
 ### Required Headers
 
-<ParamField header="Authorization" type="string" required>
-  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+<ParamField header="x-api-key" type="string" required>
+  Your Crawleo API key for authentication.
   
-  Example: `Authorization: Bearer YOUR_API_KEY`
+  Example: `x-api-key: YOUR_API_KEY`
 </ParamField>
 
 ### Required Parameters
@@ -52,7 +52,7 @@ GET https://api.crawleo.dev/search
 </ParamField>
 
 <ParamField query="geolocation" type="string">
-  Geographic location for localized results.
+  Geographic location for localized results. Use `random` for randomized geolocation.
 </ParamField>
 
 ### Device Simulation
@@ -63,41 +63,41 @@ GET https://api.crawleo.dev/search
 
 ### SERP Enrichment Toggles
 
-<ParamField query="include_copilot_answers" default="true" type="boolean">
+<ParamField query="copilot_answer" default="true" type="boolean">
   Include Copilot AI-generated answers in the SERP results.
 </ParamField>
 
-<ParamField query="include_people_also_ask" default="true" type="boolean">
-  Include "People Also Ask" question cards in the results.
+<ParamField query="questions_answers" default="true" type="boolean">
+  Include "People Also Ask" question-and-answer cards in the results.
 </ParamField>
 
-<ParamField query="include_related_queries" default="true" type="boolean">
+<ParamField query="related_queries" default="true" type="boolean">
   Include related search queries suggestions.
 </ParamField>
 
-<ParamField query="include_sidebar" default="true" type="boolean">
+<ParamField query="sidebar" default="true" type="boolean">
   Include sidebar data (knowledge panels, local results, etc.).
 </ParamField>
 
-<ParamField query="include_direct_answers" default="true" type="boolean">
+<ParamField query="direct_answer" default="true" type="boolean">
   Include direct answer boxes and instant answers.
 </ParamField>
 
 ### Page Content Format Parameters
 
-<ParamField query="get_raw_html" default="false" type="boolean">
+<ParamField query="raw_html" default="false" type="boolean">
   Return the original HTML source of each result page.
 </ParamField>
 
-<ParamField query="get_ai_enhanced_html" default="false" type="boolean">
+<ParamField query="enhanced_html" default="false" type="boolean">
   Return clean HTML with ads, scripts, and tracking removed.
 </ParamField>
 
-<ParamField query="get_page_text" default="false" type="boolean">
+<ParamField query="page_text" default="false" type="boolean">
   Return plain text content extracted from each result page.
 </ParamField>
 
-<ParamField query="get_page_text_markdown" default="false" type="boolean">
+<ParamField query="markdown" default="false" type="boolean">
   Return content as structured Markdown (recommended for RAG/LLM).
 </ParamField>
 
@@ -115,7 +115,8 @@ GET https://api.crawleo.dev/search
 
 ```bash cURL
 curl -X GET "https://api.crawleo.dev/search?query=machine%20learning&count=10" \
-  -H "Authorization: Bearer YOUR_API_KEY"
+  -H "x-api-key: YOUR_API_KEY" \
+  -H "Accept: application/json"
 ```
 
 
@@ -133,8 +134,30 @@ curl -X GET "https://api.crawleo.dev/search?query=machine%20learning&count=10" \
 <CodeGroup>
 
 ```bash cURL
-curl -X GET "https://api.crawleo.dev/search?query=python%20tutorials&count=5&auto_crawling=true&get_page_text_markdown=true" \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET "https://api.crawleo.dev/search?query=python%20tutorials&count=5&auto_crawling=true&markdown=true" \
+  -H "x-api-key: YOUR_API_KEY" \
+  -H "Accept: application/json"
+```
+
+
+```python Python
+```
+
+
+```javascript JavaScript
+```
+
+</CodeGroup>
+
+### Full-Featured Search
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET \
+  "https://api.crawleo.dev/search?query=Who+is+Elon+Musk%3F&max_pages=1&device=desktop&setLang=en&geolocation=random&enhanced_html=true&raw_html=false&page_text=false&markdown=true&auto_crawling=true&copilot_answer=true&questions_answers=true&related_queries=true&sidebar=true&direct_answer=true" \
+  -H "x-api-key: YOUR_API_KEY" \
+  -H "Accept: application/json"
 ```
 
 
@@ -153,7 +176,8 @@ curl -X GET "https://api.crawleo.dev/search?query=python%20tutorials&count=5&aut
 
 ```bash cURL
 curl -X GET "https://api.crawleo.dev/search?query=news&setLang=de&cc=DE&count=10" \
-  -H "Authorization: Bearer YOUR_API_KEY"
+  -H "x-api-key: YOUR_API_KEY" \
+  -H "Accept: application/json"
 ```
 
 
@@ -254,17 +278,17 @@ A successful response returns search results with optional crawled content:
           </Expandable>
         </ResponseField>
         <ResponseField name="related_queries" type="array">
-          Array of suggested related search queries.
+          Array of suggested related search queries (if `related_queries=true`).
         </ResponseField>
         <ResponseField name="page_content" type="object">
-          Page content (when output format options are enabled).
+          Page content (when page content format options are enabled).
 
           <Expandable title="Page content properties">
             <ResponseField name="enhanced_html" type="string">
-              Clean HTML with ads/scripts removed (if `get_ai_enhanced_html=true`).
+              Clean HTML with ads/scripts removed (if `enhanced_html=true`).
             </ResponseField>
             <ResponseField name="page_markdown" type="string">
-              Markdown formatted content (if `get_page_text_markdown=true`).
+              Markdown formatted content (if `markdown=true`).
             </ResponseField>
           </Expandable>
         </ResponseField>
@@ -278,36 +302,34 @@ A successful response returns search results with optional crawled content:
 
 ## Important Updates
 
-<Callout type="info" title="New SERP Extraction Controls">
-  This endpoint now provides granular control over SERP enrichments through five boolean query parameters:
-  - `include_copilot_answers` - Control AI-generated answer cards
-  - `include_people_also_ask` - Control question suggestions
-  - `include_related_queries` - Control related search queries
-  - `include_sidebar` - Control sidebar data and knowledge panels
-  - `include_direct_answers` - Control instant answer boxes
+<Callout type="info" title="SERP Extraction Controls">
+  This endpoint provides granular control over SERP enrichments through five boolean query parameters:
+  - `copilot_answer` - Control AI-generated answer cards
+  - `questions_answers` - Control People Also Ask suggestions
+  - `related_queries` - Control related search queries
+  - `sidebar` - Control sidebar data and knowledge panels
+  - `direct_answer` - Control instant answer boxes
 
   Advanced SERP features default to `true`, allowing you to selectively disable them as needed.
 </Callout>
 
 <Callout type="warning" title="Page Content Defaults Changed">
-  **Breaking Change**: `enhanced_html` and `markdown` now default to `false`. To receive page content, explicitly set `get_ai_enhanced_html=true` and/or `get_page_text_markdown=true` in your request. This makes default responses leaner and more focused on core search results.
+  **Breaking Change**: `enhanced_html` and `markdown` now default to `false`. To receive page content, explicitly set `enhanced_html=true` and/or `markdown=true` in your request. This makes default responses leaner and more focused on core search results.
 </Callout>
 
 ## Use Cases
 
 <AccordionGroup>
   <Accordion icon="brain" title="RAG Pipeline">
-    Use `auto_crawling=true` with `get_page_text_markdown=true` to fetch search results and their full content in a single request, formatted for LLM consumption.
+    Use `auto_crawling=true` with `markdown=true` to fetch search results and their full content in a single request, formatted for LLM consumption.
   </Accordion>
   <Accordion icon="robot" title="Research Agent">
     Combine with localization parameters to gather region-specific information for AI research agents.
   </Accordion>
   <Accordion icon="layer-group" title="Content Aggregation">
-    Use `get_ai_enhanced_html=true` to collect clean content from multiple sources without ads and scripts.
+    Use `enhanced_html=true` to collect clean content from multiple sources without ads and scripts.
   </Accordion>
   <Accordion icon="toggle-left" title="Fine-Grained SERP Control">
-    Use the SERP enrichment toggles to customize which advanced search features are extracted. For example, disable `include_people_also_ask=false` if you only need core results and related queries.
+    Use the SERP enrichment toggles to customize which advanced search features are extracted. For example, set `questions_answers=false` if you only need core results and related queries.
   </Accordion>
 </AccordionGroup>
-
-in docs/api-reference/endpoint/search.mdx the response isn't correct . fix it . the real output example:
