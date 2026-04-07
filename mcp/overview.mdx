@@ -17,18 +17,23 @@ https://api.crawleo.dev/mcp
 
 ## Available Tools
 
-When connected via MCP, AI assistants have access to two tools:
+When connected via MCP, AI assistants have access to three tools:
 
-<CardGroup cols={2}>
+<CardGroup cols={3}>
   <Card title="search_web" icon="magnifying-glass">
-    Perform real-time web searches with AI-enhanced results.
+    Bing-powered web search with auto-crawling. Best for LLM and RAG use cases.
     
     **Cost:** 10 credits per page of results
+  </Card>
+  <Card title="google_search" icon="google">
+    Google SERP data with knowledge graphs, news, images, places, and shopping.
+    
+    **Cost:** 10 credits per request
   </Card>
   <Card title="crawl_web" icon="spider-web">
     Crawl specific URLs and extract content.
     
-    **Cost:** 1-10 credits per page (based on proxy settings)
+    **Cost:** 1-10 credits per page
   </Card>
 </CardGroup>
 
@@ -37,9 +42,9 @@ When connected via MCP, AI assistants have access to two tools:
 | Tool | Credits Cost |
 |------|-------------|
 | `search_web` | 10 credits per page |
-| `crawl_web` (no proxy) | 1 credit per page |
-| `crawl_web` (standard proxy) | 2 credits per page |
-| `crawl_web` (premium proxy) | 10 credits per page |
+| `google_search` | 10 credits per request |
+| `crawl_web` (HTTP request) | 1 credit per URL |
+| `crawl_web` (browser rendering) | 10 credits per URL |
 
 <Card title="Credits & Pricing" icon="coins" href="/credits-pricing">
   View full pricing details and subscription plans.

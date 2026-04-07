@@ -1,0 +1,393 @@
+---
+title: "Google Search API"
+seoTitle: "Crawleo Google Search API - Real-Time Google SERP Data"
+description: "Real-time Google search results with structured SERP data including organic results, knowledge graphs, People Also Ask, news, images, shopping, and more. Ideal for SEO monitoring, lead generation, and competitor research."
+api: "GET https://api.crawleo.dev/google-search"
+---
+
+## Overview
+
+The Google Search API delivers real-time Google search results powered by Serper. Get structured SERP data including organic results, knowledge graphs, People Also Ask, news, images, shopping, and more.
+
+<Info>
+  **Which Search API should I use?** Use the [Bing Search API](/api-reference/endpoint/search) for LLM and RAG pipelines (with auto-crawling and content extraction). Use the **Google Search API** for SEO monitoring, lead generation, competitor research, and structured SERP analysis.
+</Info>
+
+## Endpoint
+
+```
+GET https://api.crawleo.dev/google-search
+```
+
+**Cost:** 10 credits per request
+
+## Parameters
+
+### Required Headers
+
+<ParamField header="x-api-key" type="string" required>
+  Your Crawleo API key for authentication.
+  
+  Example: `x-api-key: YOUR_API_KEY`
+</ParamField>
+
+### Required Parameters
+
+<ParamField query="q" type="string" required>
+  The search query.
+</ParamField>
+
+### Optional Parameters
+
+<ParamField query="gl" type="string" default="us">
+  Country for search results. ISO 3166-1 alpha-2 code (e.g. `us`, `gb`, `eg`, `de`, `fr`).
+</ParamField>
+
+<ParamField query="hl" type="string" default="en">
+  Language for results. IETF language tag (e.g. `en`, `ar`, `fr`, `de`).
+</ParamField>
+
+<ParamField query="tbs" type="string">
+  Time-based filter for results freshness.
+  
+  | Value | Meaning |
+  |-------|---------|
+  | `qdr:h` | Past hour |
+  | `qdr:d` | Past day |
+  | `qdr:w` | Past week |
+  | `qdr:m` | Past month |
+  | `qdr:y` | Past year |
+</ParamField>
+
+<ParamField query="page" type="integer" default="1">
+  Page number of results (1-indexed).
+</ParamField>
+
+<ParamField query="num" type="integer" default="10">
+  Number of results per page (1–100).
+</ParamField>
+
+<ParamField query="type" type="string" default="search">
+  Search type. Controls which vertical of Google results to query.
+  
+  | Value | Description |
+  |-------|-------------|
+  | `search` | Standard web search |
+  | `news` | Google News results |
+  | `images` | Google Images |
+  | `places` | Google Maps / local business results |
+  | `shopping` | Google Shopping product listings |
+</ParamField>
+
+## Example Requests
+
+### Basic Search
+
+<CodeGroup>
+
+```bash cURL
+curl -G "https://api.crawleo.dev/google-search" \
+  -H "x-api-key: YOUR_API_KEY" \
+  --data-urlencode "q=best CRM software" \
+  -d "gl=us" \
+  -d "hl=en" \
+  -d "num=10"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.crawleo.dev/google-search",
+    headers={"x-api-key": "YOUR_API_KEY"},
+    params={
+        "q": "best CRM software",
+        "gl": "us",
+        "hl": "en",
+        "num": 10
+    }
+)
+
+data = response.json()
+results = data["google search results"]
+for r in results:
+    print(r["title"], r["link"])
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.crawleo.dev/google-search?" + new URLSearchParams({
+    q: "best CRM software",
+    gl: "us",
+    hl: "en",
+    num: "10",
+  }),
+  {
+    headers: { "x-api-key": "YOUR_API_KEY" },
+  }
+);
+
+const data = await response.json();
+console.log(data["google search results"]);
+```
+
+</CodeGroup>
+
+### News Search
+
+<CodeGroup>
+
+```bash cURL
+curl -G "https://api.crawleo.dev/google-search" \
+  -H "x-api-key: YOUR_API_KEY" \
+  --data-urlencode "q=artificial intelligence" \
+  -d "type=news" \
+  -d "tbs=qdr:d" \
+  -d "num=10"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.crawleo.dev/google-search",
+    headers={"x-api-key": "YOUR_API_KEY"},
+    params={
+        "q": "artificial intelligence",
+        "type": "news",
+        "tbs": "qdr:d",
+        "num": 10
+    }
+)
+
+data = response.json()
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.crawleo.dev/google-search?" + new URLSearchParams({
+    q: "artificial intelligence",
+    type: "news",
+    tbs: "qdr:d",
+    num: "10",
+  }),
+  {
+    headers: { "x-api-key": "YOUR_API_KEY" },
+  }
+);
+
+const data = await response.json();
+```
+
+</CodeGroup>
+
+### Local Business Search
+
+<CodeGroup>
+
+```bash cURL
+curl -G "https://api.crawleo.dev/google-search" \
+  -H "x-api-key: YOUR_API_KEY" \
+  --data-urlencode "q=coffee shops" \
+  -d "type=places" \
+  -d "gl=gb"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.crawleo.dev/google-search",
+    headers={"x-api-key": "YOUR_API_KEY"},
+    params={
+        "q": "coffee shops",
+        "type": "places",
+        "gl": "gb"
+    }
+)
+
+data = response.json()
+```
+
+</CodeGroup>
+
+### Shopping Search
+
+<CodeGroup>
+
+```bash cURL
+curl -G "https://api.crawleo.dev/google-search" \
+  -H "x-api-key: YOUR_API_KEY" \
+  --data-urlencode "q=wireless headphones" \
+  -d "type=shopping" \
+  -d "num=20"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.crawleo.dev/google-search",
+    headers={"x-api-key": "YOUR_API_KEY"},
+    params={
+        "q": "wireless headphones",
+        "type": "shopping",
+        "num": 20
+    }
+)
+
+data = response.json()
+```
+
+</CodeGroup>
+
+## Response
+
+A successful response returns structured SERP data:
+
+```json
+{
+  "parameters": {
+    "q": "best CRM software",
+    "gl": "us",
+    "hl": "en",
+    "type": "search",
+    "num": 10,
+    "page": 1
+  },
+  "google search results": [
+    {
+      "title": "Result Title",
+      "link": "https://example.com",
+      "snippet": "Description of the result...",
+      "position": 1
+    }
+  ],
+  "knowledgeGraph": {
+    "title": "Entity Name",
+    "type": "Category",
+    "description": "...",
+    "attributes": {}
+  },
+  "peopleAlsoAsk": [
+    {
+      "question": "Related question?",
+      "snippet": "Answer snippet...",
+      "link": "https://example.com"
+    }
+  ],
+  "relatedSearches": [
+    { "query": "related query" }
+  ],
+  "answerBox": {
+    "answer": "Direct answer text",
+    "snippet": "..."
+  }
+}
+```
+
+<ResponseField name="parameters" type="object">
+  Echo of the query parameters used for this request.
+</ResponseField>
+
+<ResponseField name="google search results" type="array">
+  Array of organic search result objects.
+
+  <Expandable title="Search result properties">
+    <ResponseField name="title" type="string">
+      Title of the search result.
+    </ResponseField>
+    <ResponseField name="link" type="string">
+      URL of the search result.
+    </ResponseField>
+    <ResponseField name="snippet" type="string">
+      Description snippet from Google.
+    </ResponseField>
+    <ResponseField name="position" type="integer">
+      Ranking position in the SERP.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="knowledgeGraph" type="object">
+  Google Knowledge Graph data (when available).
+
+  <Expandable title="Knowledge Graph properties">
+    <ResponseField name="title" type="string">
+      Entity name.
+    </ResponseField>
+    <ResponseField name="type" type="string">
+      Entity category.
+    </ResponseField>
+    <ResponseField name="description" type="string">
+      Entity description.
+    </ResponseField>
+    <ResponseField name="attributes" type="object">
+      Key-value pairs of entity attributes.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="peopleAlsoAsk" type="array">
+  "People Also Ask" questions and answers (when available).
+</ResponseField>
+
+<ResponseField name="relatedSearches" type="array">
+  Related search query suggestions (when available).
+</ResponseField>
+
+<ResponseField name="answerBox" type="object">
+  Direct answer box content (when available).
+</ResponseField>
+
+<Note>
+  `knowledgeGraph`, `peopleAlsoAsk`, `relatedSearches`, `answerBox`, and other enriched fields are only present when Google returns them for the query.
+</Note>
+
+## MCP Integration
+
+The Google Search API is available as an MCP tool named `google_search`. It works with your existing Crawleo MCP configuration — no extra setup needed.
+
+**Tool name:** `google_search`
+
+**Inputs:** Same parameters as the HTTP API (`q`, `gl`, `hl`, `tbs`, `page`, `num`, `type`)
+
+<Card title="MCP Setup" icon="plug" href="/mcp/overview">
+  Already configured Crawleo MCP? The `google_search` tool is automatically available.
+</Card>
+
+## Error Responses
+
+| Status Code | Description |
+|-------------|-------------|
+| `400` | Missing required parameter `q` |
+| `401` | Invalid or missing API key |
+| `402` | Insufficient credits |
+| `429` | Rate limit exceeded |
+| `500` | Internal server error |
+
+## Use Cases
+
+<AccordionGroup>
+  <Accordion icon="chart-line" title="SERP Analysis & SEO Monitoring">
+    Track keyword rankings, featured snippets, and People Also Ask blocks for your target queries. Compare positions over time using the `tbs` time filter.
+  </Accordion>
+  <Accordion icon="bullseye" title="Lead Generation">
+    Use `type=places` to surface local businesses in a target region. Combine with `gl` to geo-target specific markets and extract business names, addresses, and URLs.
+  </Accordion>
+  <Accordion icon="binoculars" title="Competitor Research">
+    Search for competitor brand names or product categories to see what SERP features they own — knowledge graphs, answer boxes, shopping results.
+  </Accordion>
+  <Accordion icon="newspaper" title="News Monitoring">
+    Use `type=news` with `tbs=qdr:d` to get today's news coverage for any topic, brand, or keyword. Ideal for PR monitoring pipelines.
+  </Accordion>
+  <Accordion icon="tags" title="Price Comparison">
+    Use `type=shopping` to fetch product listings, prices, and merchant names across Google Shopping results.
+  </Accordion>
+  <Accordion icon="robot" title="AI Agent Grounding">
+    Feed real-time search results into LLMs via MCP to ground responses with current information. The `google_search` MCP tool is drop-in compatible with Claude, Cursor, and GitHub Copilot.
+  </Accordion>
+  <Accordion icon="lightbulb" title="Content Intelligence">
+    Retrieve `peopleAlsoAsk` data to discover content gaps, FAQ opportunities, and audience questions at scale.
+  </Accordion>
+</AccordionGroup>

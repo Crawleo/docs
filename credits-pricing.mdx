@@ -11,7 +11,9 @@ Crawleo uses a **credits-based billing system** that gives you flexibility and p
 
 ## Credit Costs
 
-### Search API
+### Bing Search API
+
+Optimized for LLM and RAG pipelines with auto-crawling and content extraction.
 
 | Operation | Credits Cost |
 |-----------|-------------|
@@ -19,6 +21,18 @@ Crawleo uses a **credits-based billing system** that gives you flexibility and p
 
 <Info>
   Each page of search results (controlled by `max_pages` parameter) costs 10 credits. For example, searching with `max_pages=3` will cost 30 credits.
+</Info>
+
+### Google Search API
+
+Structured Google SERP data for SEO, lead generation, and competitor research.
+
+| Operation | Credits Cost |
+|-----------|-------------|
+| Google search request | **10 credits** |
+
+<Info>
+  Each Google Search request costs a flat 10 credits regardless of result count. Supports web, news, images, places, and shopping search types.
 </Info>
 
 ### Crawl API
@@ -83,27 +97,38 @@ Crawleo uses a **credits-based billing system** that gives you flexibility and p
 
 ## Usage Examples
 
-### Search API Examples
+### Bing Search API Examples
 
 | Use Case | Parameters | Credits Used |
-|----------|------------|--------------|
+|----------|------------|---------------|
 | Basic search | `query="AI news"` (1 page) | 10 credits |
 | Deep search | `query="AI news"&max_pages=5` | 50 credits |
 | Multi-page research | `query="machine learning"&max_pages=10` | 100 credits |
 
+### Google Search API Examples
+
+| Use Case | Parameters | Credits Used |
+|----------|------------|---------------|
+| Basic search | `q="best CRM software"` | 10 credits |
+| News search | `q="AI news"&type=news` | 10 credits |
+| Local businesses | `q="coffee shops"&type=places&gl=gb` | 10 credits |
+| Shopping | `q="wireless headphones"&type=shopping` | 10 credits |
+
 ### Crawl API Examples
 
 | Use Case | Parameters | Credits Used |
-|----------|------------||--------------|
+|----------|------------|---------------|
 | Single page crawl | `urls=https://example.com` | 1 credit |
 | Crawl with JavaScript | `urls=https://example.com&render_js=true` | 10 credits |
 | 5 pages, HTTP only | `urls=url1,url2,url3,url4,url5` | 5 credits |
 | 5 pages, with JS rendering | `urls=url1,url2,url3,url4,url5&render_js=true` | 50 credits |
+
 When using Crawleo via MCP (Model Context Protocol), the same credit costs apply:
 
 | MCP Tool | Credits Cost |
-|----------|--------------|
+|----------|---------------|
 | `search_web` | 10 credits per page |
+| `google_search` | 10 credits per request |
 | `crawl_web` (HTTP request) | 1 credit per URL |
 | `crawl_web` (browser rendering) | 10 credits per URL |
 

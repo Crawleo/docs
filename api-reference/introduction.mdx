@@ -32,13 +32,18 @@ x-api-key: YOUR_API_KEY
 
 ## Available Endpoints
 
-Crawleo provides two main API endpoints:
+Crawleo provides three API endpoints:
 
 <CardGroup cols={2}>
-  <Card title="Search API" icon="magnifying-glass" href="/api-reference/endpoint/search">
+  <Card title="Bing Search API" icon="magnifying-glass" href="/api-reference/endpoint/search">
     **GET /search**
     
-    Real-time web search with optional automatic crawling of results.
+    Bing-powered web search with auto-crawling and content extraction. Optimized for LLM and RAG pipelines.
+  </Card>
+  <Card title="Google Search API" icon="google" href="/api-reference/endpoint/google-search">
+    **GET /google-search**
+    
+    Google SERP data with knowledge graphs, news, images, places, and shopping. Ideal for SEO and lead generation.
   </Card>
   <Card title="Crawler API" icon="spider-web" href="/api-reference/endpoint/crawler">
     **GET /crawl**
@@ -46,6 +51,10 @@ Crawleo provides two main API endpoints:
     Direct URL crawling with JavaScript rendering support.
   </Card>
 </CardGroup>
+
+<Info>
+  **Which Search API should I use?** Use the **Bing Search API** for LLM/RAG workflows — it supports auto-crawling and returns page content in Markdown. Use the **Google Search API** for SEO monitoring, lead generation, and structured SERP analysis.
+</Info>
 
 ## Output Formats
 
@@ -93,10 +102,10 @@ API usage is tracked using credits. Each API call deducts credits from your mont
 
 | API Endpoint | Credits Cost |
 |--------------|-------------|
-| **Search API** | 10 credits per page of results |
-| **Crawl API** (no proxy) | 1 credit per page |
-| **Crawl API** (standard proxy) | 2 credits per page |
-| **Crawl API** (premium proxy) | 10 credits per page |
+| **Bing Search API** | 10 credits per page of results |
+| **Google Search API** | 10 credits per request |
+| **Crawl API** (HTTP request) | 1 credit per URL |
+| **Crawl API** (browser rendering) | 10 credits per URL |
 
 ### Subscription Plans
 

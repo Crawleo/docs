@@ -13,12 +13,12 @@
       "anchors": [
         {
           "anchor": "Dashboard",
-          "icon": "newspaper",
+          "icon": "gauge",
           "href": "https://www.crawleo.dev/dashboard"
         },
         {
           "anchor": "Blog",
-          "icon": "newspaper",
+          "icon": "pen-to-square",
           "href": "https://www.crawleo.dev/blog"
         }
       ]
@@ -71,8 +71,17 @@
             ]
           },
           {
-            "group": "Endpoints",
-            "openapi": "openapi.json"
+            "group": "Search",
+            "pages": [
+              "api-reference/endpoint/search",
+              "api-reference/endpoint/google-search"
+            ]
+          },
+          {
+            "group": "Crawling",
+            "pages": [
+              "api-reference/endpoint/crawler"
+            ]
           }
         ]
       }

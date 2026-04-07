@@ -20,9 +20,9 @@ description: "Start using Crawleo in under 5 minutes. Learn how to get your API 
 
 ## Make Your First Request
 
-### Search the Web
+### Search the Web (Bing — for LLM/RAG)
 
-Use the Search API to perform real-time web searches:
+Use the Bing Search API for LLM-optimized results with optional auto-crawling and content extraction:
 
 <CodeGroup>
 ```bash cURL
@@ -60,6 +60,55 @@ const response = await fetch(
 
 const data = await response.json();
 console.log(data);
+```
+</CodeGroup>
+
+### Search the Web (Google — for SEO & Lead Gen)
+
+Use the Google Search API for structured SERP data, knowledge graphs, news, images, places, and shopping:
+
+<CodeGroup>
+```bash cURL
+curl -G "https://api.crawleo.dev/google-search" \
+  -H "x-api-key: YOUR_API_KEY" \
+  --data-urlencode "q=best CRM software" \
+  -d "gl=us" \
+  -d "num=10"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.crawleo.dev/google-search",
+    headers={"x-api-key": "YOUR_API_KEY"},
+    params={
+        "q": "best CRM software",
+        "gl": "us",
+        "num": 10
+    }
+)
+
+data = response.json()
+results = data["google search results"]
+for r in results:
+    print(r["title"], r["link"])
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.crawleo.dev/google-search?" + new URLSearchParams({
+    q: "best CRM software",
+    gl: "us",
+    num: "10",
+  }),
+  {
+    headers: { "x-api-key": "YOUR_API_KEY" },
+  }
+);
+
+const data = await response.json();
+console.log(data["google search results"]);
 ```
 </CodeGroup>
 
@@ -123,16 +172,16 @@ Crawleo supports multiple output formats optimized for different use cases:
 ## Next Steps
 
 <CardGroup cols={2}>
-  <Card title="Search API" icon="magnifying-glass" href="/api-reference/endpoint/search">
-    Learn all Search API parameters and options.
+  <Card title="Bing Search API" icon="magnifying-glass" href="/api-reference/endpoint/search">
+    LLM-optimized search with auto-crawling and content extraction.
+  </Card>
+  <Card title="Google Search API" icon="google" href="/api-reference/endpoint/google-search">
+    Structured SERP data for SEO, lead gen, and competitor research.
   </Card>
   <Card title="Crawler API" icon="spider-web" href="/api-reference/endpoint/crawler">
     Explore Crawler API capabilities.
   </Card>
   <Card title="MCP Integration" icon="plug" href="/mcp/overview">
     Connect AI assistants to Crawleo.
-  </Card>
-  <Card title="LangChain" icon="link" href="/integrations/langchain">
-    Use Crawleo with LangChain.
   </Card>
 </CardGroup>

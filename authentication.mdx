@@ -1,7 +1,8 @@
 ---
 title: "Authentication"
-seoTitle: "Crawleo API Authentication - API Keys, Credits & Rate Limits"
-description: "Learn how to authenticate your Crawleo API requests, manage API keys, understand the credits system, and handle rate limits."
+seoTitle: "Crawleo API Authentication - API Keys & Security"
+description: "Learn how to authenticate your Crawleo API requests, manage API keys securely, and handle authentication errors."
+icon: "key"
 ---
 
 ## API Key Authentication
@@ -10,29 +11,28 @@ All Crawleo API requests require authentication using your API key.
 
 ### Getting Your API Key
 
-1. Sign up at [crawleo.dev/login](https://www.crawleo.dev/login)
-2. Subscribe to a plan at [crawleo.dev/pricing](https://www.crawleo.dev/pricing)
-3. Access your API key from the dashboard
+<Steps>
+  <Step title="Create an Account">
+    Sign up at [crawleo.dev/login](https://www.crawleo.dev/login).
+  </Step>
+  <Step title="Choose a Plan">
+    Subscribe to a plan at [crawleo.dev/pricing](https://www.crawleo.dev/pricing).
+  </Step>
+  <Step title="Copy Your Key">
+    Access your API key from the [dashboard](https://www.crawleo.dev/dashboard).
+  </Step>
+</Steps>
 
 ### Using Your API Key
 
-Include your API key in one of the following headers:
+Include your API key in one of the following headers — both methods are equivalent:
 
-**Option 1: Authorization Header (Bearer Token)**
+| Method | Header | Format |
+|--------|--------|--------|
+| **Bearer Token** | `Authorization` | `Bearer YOUR_API_KEY` |
+| **X-API-Key** | `x-api-key` | `YOUR_API_KEY` |
 
-```bash
-Authorization: Bearer YOUR_API_KEY
-```
-
-**Option 2: X-API-Key Header**
-
-```bash
-x-api-key: YOUR_API_KEY
-```
-
-Both methods are equivalent - use whichever is more convenient for your application.
-
-### Example Request
+### Example Requests
 
 <CodeGroup>
 
@@ -41,16 +41,36 @@ curl -X GET "https://api.crawleo.dev/search?query=hello" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
-
 ```bash cURL (x-api-key Header)
+curl -X GET "https://api.crawleo.dev/search?query=hello" \
+  -H "x-api-key: YOUR_API_KEY"
 ```
-
 
 ```python Python
+import requests
+
+response = requests.get(
+    "https://api.crawleo.dev/search",
+    params={"query": "hello"},
+    headers={"Authorization": "Bearer YOUR_API_KEY"}
+)
+
+data = response.json()
+print(data)
 ```
 
-
 ```javascript JavaScript
+const response = await fetch(
+  "https://api.crawleo.dev/search?query=hello",
+  {
+    headers: {
+      "Authorization": "Bearer YOUR_API_KEY"
+    }
+  }
+);
+
+const data = await response.json();
+console.log(data);
 ```
 
 </CodeGroup>
@@ -73,54 +93,43 @@ curl -X GET "https://api.crawleo.dev/search?query=hello" \
     import os
     api_key = os.environ.get("CRAWLEO_API_KEY")
     ```
+
+    ```javascript
+    const apiKey = process.env.CRAWLEO_API_KEY;
+    ```
   </Accordion>
   <Accordion title="Server-Side Only" icon="server">
-    Make API calls from your backend server, not from browser-based JavaScript.
+    Make API calls from your backend server, not from browser-based JavaScript. Client-side requests would expose your API key to anyone inspecting the page source.
   </Accordion>
   <Accordion title="Rotate Keys Regularly" icon="arrows-rotate">
-    Periodically rotate your API keys, especially if you suspect they may have been compromised.
+    Periodically rotate your API keys, especially if you suspect they may have been compromised. You can regenerate keys from the [dashboard](https://www.crawleo.dev/dashboard).
   </Accordion>
 </AccordionGroup>
 
-## Credits System
-
-API usage is tracked using credits. Each API call deducts credits from your monthly allowance based on your subscription plan.
-
-### Credit Costs
-
-| API Endpoint               | Credits Cost                   |
-| -------------------------- | ------------------------------ |
-| Search API                 | 10 credits per page of results |
-| Crawl API (no proxy)       | 1 credit per page              |
-| Crawl API (standard proxy) | 2 credits per page             |
-| Crawl API (premium proxy)  | 10 credits per page            |
-
-### Subscription Plans
-
-| Plan      | Credits/Month | Concurrent Requests | Price       |
-| --------- | ------------- | ------------------- | ----------- |
-| Free      | 10,000        | 5                   | \$0/month   |
-| Developer | 100,000       | 20                  | \$20/month  |
-| Pro       | 1,000,000     | 50                  | \$100/month |
-| Scale     | 2,500,000     | 100                 | \$200/month |
-
-<Card title="Full Pricing Details" icon="coins" href="/credits-pricing">
-  See detailed credit costs and usage examples.
-</Card>
-
-## Concurrent Request Limits
-
-Each plan has a maximum number of concurrent requests. If you exceed this limit, you'll receive a `429` response with the message:
-
-```
-Concurrent request limit reached ({limit}). Please wait for other requests to finish.
-```
-
 ## Error Responses
 
-| Status Code | Description                                  | Error Message                                                                             |
-| ----------- | -------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `401`       | Invalid or missing API key                   | -                                                                                         |
-| `403`       | API key doesn't have access to this resource | -                                                                                         |
-| `429`       | Credits exhausted                            | `"Credits exhausted. Please upgrade your plan."`                                          |
-| `429`       | Concurrent limit reached                     | `"Concurrent request limit reached ({limit}). Please wait for other requests to finish."` |
+When authentication fails, you'll receive one of these error responses:
+
+| Status Code | Description | Cause |
+|-------------|-------------|-------|
+| `401` | Unauthorized | Invalid or missing API key |
+| `403` | Forbidden | API key doesn't have access to this resource |
+| `429` | Too Many Requests | Credits exhausted or concurrent limit reached |
+
+```json
+{
+  "error": {
+    "code": "UNAUTHORIZED",
+    "message": "Invalid or missing API key."
+  }
+}
+```
+
+<CardGroup cols={2}>
+  <Card title="Credits & Pricing" icon="coins" href="/credits-pricing">
+    Learn about credit costs, plans, and rate limits.
+  </Card>
+  <Card title="API Reference" icon="book" href="/api-reference/introduction">
+    See the full API documentation.
+  </Card>
+</CardGroup>
