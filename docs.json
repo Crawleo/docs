@@ -17,14 +17,14 @@
           "href": "https://www.crawleo.dev/"
         },
         {
-          "anchor": "Pricing",
-          "icon": "credit-card",
-          "href": "https://www.crawleo.dev/pricing"
-        },
-        {
           "anchor": "Dashboard",
           "icon": "gauge",
           "href": "https://www.crawleo.dev/dashboard"
+        },
+        {
+          "anchor": "Pricing",
+          "icon": "credit-card",
+          "href": "https://www.crawleo.dev/pricing"
         },
         {
           "anchor": "Blog",
