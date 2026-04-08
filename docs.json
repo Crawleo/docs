@@ -4,8 +4,8 @@
   "name": "Crawleo",
   "colors": {
     "primary": "#742dee",
-    "light": "#9665e4",
-    "dark": "#D946EF"
+    "light": "#D946EF",
+    "dark": "#9665e4"
   },
   "favicon": "/images/favicon.svg",
   "navigation": {
