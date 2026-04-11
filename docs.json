@@ -84,7 +84,8 @@
             "group": "Search",
             "pages": [
               "api-reference/endpoint/search",
-              "api-reference/endpoint/google-search"
+              "api-reference/endpoint/google-search",
+              "api-reference/endpoint/google-maps"
             ]
           },
           {

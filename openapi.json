@@ -146,6 +146,91 @@
             }
           }
         }
+      },
+      "GoogleMapsResponse": {
+        "type": "object",
+        "properties": {
+          "parameters": {
+            "type": "object",
+            "description": "Echo of the query parameters used for this request",
+            "properties": {
+              "q": {
+                "type": "string",
+                "description": "The search query"
+              },
+              "hl": {
+                "type": "string",
+                "description": "Language code used"
+              }
+            }
+          },
+          "google_maps_results": {
+            "type": "array",
+            "description": "Array of place result objects",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "description": "Name of the place or business"
+                },
+                "address": {
+                  "type": "string",
+                  "description": "Full street address of the place"
+                },
+                "rating": {
+                  "type": "number",
+                  "description": "Average user rating (e.g. 4.3)"
+                },
+                "ratingCount": {
+                  "type": "integer",
+                  "description": "Total number of user ratings"
+                },
+                "phone": {
+                  "type": "string",
+                  "description": "Phone number of the business"
+                },
+                "website": {
+                  "type": "string",
+                  "description": "Website URL of the business"
+                },
+                "category": {
+                  "type": "string",
+                  "description": "Business or place category"
+                },
+                "placeId": {
+                  "type": "string",
+                  "description": "Google Place ID"
+                },
+                "cid": {
+                  "type": "string",
+                  "description": "Google business/customer ID"
+                },
+                "latitude": {
+                  "type": "number",
+                  "description": "Latitude coordinate of the place"
+                },
+                "longitude": {
+                  "type": "number",
+                  "description": "Longitude coordinate of the place"
+                },
+                "openingHours": {
+                  "type": "string",
+                  "description": "Opening hours summary"
+                },
+                "priceRange": {
+                  "type": "string",
+                  "description": "Price range indicator (e.g. $$)"
+                }
+              }
+            }
+          },
+          "credits": {
+            "type": "integer",
+            "example": 10,
+            "description": "Credits used for this request"
+          }
+        }
       }
     }
   },
@@ -355,6 +440,151 @@
         }
       }
     },
+    "/google-maps": {
+      "get": {
+        "summary": "Google Maps API",
+        "description": "Search for businesses, places, landmarks, and locations on Google Maps. Retrieve structured place data including addresses, ratings, phone numbers, coordinates, and more. Ideal for local search, business discovery, and place lookups.",
+        "operationId": "googleMaps",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Search query. Accepts business names, landmarks, addresses, keywords, and category + location queries (e.g. 'restaurants in Paris', 'Eiffel Tower', 'hotels near Times Square New York').",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "restaurants in Paris"
+            }
+          },
+          {
+            "name": "hl",
+            "in": "query",
+            "description": "Language code for returned text. ISO 639-1 language code (e.g. en, ar, fr, de). Affects localization of place names, categories, and other text fields.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "en"
+            }
+          },
+          {
+            "name": "ll",
+            "in": "query",
+            "description": "Location bias in the format @latitude,longitude,zoomz (e.g. @48.8566,2.3522,15z). Biases results toward the specified geographic area without strictly limiting them.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "@48.8566,2.3522,15z"
+            }
+          },
+          {
+            "name": "placeId",
+            "in": "query",
+            "description": "Google Place ID for looking up a specific place directly (e.g. ChIJLU7jZClu5kcR4PcOOO6p3I0).",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "ChIJLU7jZClu5kcR4PcOOO6p3I0"
+            }
+          },
+          {
+            "name": "cid",
+            "in": "query",
+            "description": "Google numeric business/customer ID for targeting a specific business listing.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "10311848498909477344"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Google Maps response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoogleMapsResponse"
+                },
+                "example": {
+                  "parameters": {
+                    "q": "restaurants in Paris",
+                    "hl": "fr"
+                  },
+                  "google_maps_results": [
+                    {
+                      "title": "Le Comptoir du Panthéon",
+                      "address": "5 Rue Soufflot, 75005 Paris",
+                      "rating": 4.3,
+                      "ratingCount": 2541,
+                      "phone": "+33 1 43 54 75 56",
+                      "website": "https://example.com",
+                      "category": "French Restaurant",
+                      "placeId": "ChIJLU7jZClu5kcR4PcOOO6p3I0",
+                      "cid": "10311848498909477344",
+                      "latitude": 48.8462,
+                      "longitude": 2.3464,
+                      "openingHours": "12:00 PM – 11:00 PM",
+                      "priceRange": "$$"
+                    }
+                  ],
+                  "credits": 10
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Missing required query parameter q",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Inactive account or expired subscription",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Credits exhausted or concurrent request limit reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/crawl": {
       "get": {
         "summary": "Crawler API",
@@ -514,6 +744,10 @@
     {
       "name": "Search",
       "description": "Real-time web search endpoints"
+    },
+    {
+      "name": "Google Maps",
+      "description": "Google Maps place search endpoints"
     },
     {
       "name": "Crawler",

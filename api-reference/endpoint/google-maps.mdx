@@ -1,0 +1,327 @@
+---
+title: "Google Maps API"
+seoTitle: "Crawleo Google Maps API - Local Business & Place Search"
+description: "Search for businesses, places, landmarks, and locations on Google Maps. Retrieve structured place data including addresses, ratings, phone numbers, coordinates, and more. Ideal for local search, business discovery, and place lookups."
+api: "GET https://api.crawleo.dev/google-maps"
+---
+
+## Overview
+
+The Google Maps API lets you search for businesses, places, landmarks, and locations on Google Maps and retrieve structured place data. Use it for local search, business discovery, and place lookups.
+
+<Info>
+  **When should I use this vs. the Google Search API?** Use the **Google Maps API** when you need structured place data (addresses, ratings, phone numbers, coordinates). Use the [Google Search API](/api-reference/endpoint/google-search) with `type=places` for lighter local results within a general SERP workflow.
+</Info>
+
+## Endpoint
+
+```
+GET https://api.crawleo.dev/google-maps
+```
+
+**Cost:** 10 credits per request
+
+## Parameters
+
+### Required Headers
+
+<ParamField header="x-api-key" type="string" required>
+  Your Crawleo API key for authentication.
+
+  Example: `x-api-key: YOUR_API_KEY`
+</ParamField>
+
+### Required Parameters
+
+<ParamField query="q" type="string" required>
+  Search query. Accepts business names, landmarks, addresses, keywords, and category + location queries.
+
+  Examples:
+  - `restaurants in Paris`
+  - `Eiffel Tower`
+  - `hotels near Times Square New York`
+  - `coffee shops Berlin`
+</ParamField>
+
+### Optional Parameters
+
+<ParamField query="hl" type="string">
+  Language code for returned text. ISO 639-1 language code that affects localization of place names, categories, and other text fields in the response.
+
+  Examples: `en`, `ar`, `fr`, `de`
+</ParamField>
+
+<ParamField query="ll" type="string">
+  Location bias in the format `@latitude,longitude,zoomz`. Biases results toward the specified geographic area without strictly limiting them.
+
+  | Example | Description |
+  |---------|-------------|
+  | `@48.8566,2.3522,15z` | Central Paris, street-level zoom |
+  | `@40.7580,-73.9855,14z` | Times Square, New York |
+
+  The zoom level (`z`) ranges from `1z` (world) to `21z` (building). Higher zoom values narrow the geographic bias.
+</ParamField>
+
+<ParamField query="placeId" type="string">
+  Google Place ID for looking up a specific place directly. When provided, returns data for that exact place.
+
+  Example: `ChIJLU7jZClu5kcR4PcOOO6p3I0`
+</ParamField>
+
+<ParamField query="cid" type="string">
+  Google numeric business/customer ID for targeting a specific business listing.
+
+  Example: `10311848498909477344`
+</ParamField>
+
+## Parameter Combinations / Behavior
+
+| Combination | Behavior |
+|-------------|----------|
+| `q` only | General Google Maps search for the query term. |
+| `q + hl` | Maps search with localized result text. |
+| `q + ll` | Maps search biased toward the specified geographic area. |
+| `q + ll + hl` | Location-biased search with localized text. |
+| `q + placeId` | Direct place lookup; `q` may be used for validation. |
+| `q + placeId + hl` | Direct place lookup with localized text. |
+| `q + cid` | Direct business lookup by customer ID. |
+| `q + cid + hl` | Business lookup by customer ID with localized text. |
+
+## Example Requests
+
+### Basic Search
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.crawleo.dev/google-maps?q=restaurants+in+Paris&hl=fr" \
+  -H "x-api-key: YOUR_API_KEY" \
+  -H "Accept: application/json"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.crawleo.dev/google-maps",
+    headers={"x-api-key": "YOUR_API_KEY"},
+    params={
+        "q": "restaurants in Paris",
+        "hl": "fr"
+    }
+)
+
+data = response.json()
+for place in data["google_maps_results"]:
+    print(place["title"], place["address"])
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.crawleo.dev/google-maps?" + new URLSearchParams({
+    q: "restaurants in Paris",
+    hl: "fr",
+  }),
+  {
+    headers: { "x-api-key": "YOUR_API_KEY" },
+  }
+);
+
+const data = await response.json();
+console.log(data.google_maps_results);
+```
+
+</CodeGroup>
+
+### Location-Biased Search
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.crawleo.dev/google-maps?q=coffee+shops&ll=%4048.8566%2C2.3522%2C15z&hl=fr" \
+  -H "x-api-key: YOUR_API_KEY" \
+  -H "Accept: application/json"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.crawleo.dev/google-maps",
+    headers={"x-api-key": "YOUR_API_KEY"},
+    params={
+        "q": "coffee shops",
+        "ll": "@48.8566,2.3522,15z",
+        "hl": "fr"
+    }
+)
+
+data = response.json()
+print(data)
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.crawleo.dev/google-maps?" + new URLSearchParams({
+    q: "coffee shops",
+    ll: "@48.8566,2.3522,15z",
+    hl: "fr",
+  }),
+  {
+    headers: { "x-api-key": "YOUR_API_KEY" },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+</CodeGroup>
+
+### Place ID Lookup
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.crawleo.dev/google-maps?q=Le+Comptoir&placeId=ChIJLU7jZClu5kcR4PcOOO6p3I0" \
+  -H "x-api-key: YOUR_API_KEY" \
+  -H "Accept: application/json"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.crawleo.dev/google-maps",
+    headers={"x-api-key": "YOUR_API_KEY"},
+    params={
+        "q": "Le Comptoir",
+        "placeId": "ChIJLU7jZClu5kcR4PcOOO6p3I0"
+    }
+)
+
+data = response.json()
+print(data)
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.crawleo.dev/google-maps?" + new URLSearchParams({
+    q: "Le Comptoir",
+    placeId: "ChIJLU7jZClu5kcR4PcOOO6p3I0",
+  }),
+  {
+    headers: { "x-api-key": "YOUR_API_KEY" },
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+</CodeGroup>
+
+## Response
+
+A successful response returns structured place data:
+
+```json
+{
+  "parameters": {
+    "q": "restaurants in Paris",
+    "hl": "fr"
+  },
+  "google_maps_results": [
+    {
+      "title": "Le Comptoir du Panthéon",
+      "address": "5 Rue Soufflot, 75005 Paris",
+      "rating": 4.3,
+      "ratingCount": 2541,
+      "phone": "+33 1 43 54 75 56",
+      "website": "https://example.com",
+      "category": "French Restaurant",
+      "placeId": "ChIJLU7jZClu5kcR4PcOOO6p3I0",
+      "cid": "10311848498909477344",
+      "latitude": 48.8462,
+      "longitude": 2.3464,
+      "openingHours": "12:00 PM – 11:00 PM",
+      "priceRange": "$$"
+    }
+  ],
+  "credits": 10
+}
+```
+
+### Top-Level Response Fields
+
+<ResponseField name="parameters" type="object">
+  Echo of the query parameters used for this request.
+</ResponseField>
+
+<ResponseField name="google_maps_results" type="array">
+  Array of place result objects.
+
+  <Expandable title="Place result properties">
+    <ResponseField name="title" type="string">
+      Name of the place or business.
+    </ResponseField>
+    <ResponseField name="address" type="string">
+      Full street address.
+    </ResponseField>
+    <ResponseField name="rating" type="number">
+      Average user rating (e.g. 4.3).
+    </ResponseField>
+    <ResponseField name="ratingCount" type="integer">
+      Total number of user ratings.
+    </ResponseField>
+    <ResponseField name="phone" type="string">
+      Phone number of the business.
+    </ResponseField>
+    <ResponseField name="website" type="string">
+      Website URL.
+    </ResponseField>
+    <ResponseField name="category" type="string">
+      Business or place category (e.g. "French Restaurant").
+    </ResponseField>
+    <ResponseField name="placeId" type="string">
+      Google Place ID.
+    </ResponseField>
+    <ResponseField name="cid" type="string">
+      Google business/customer ID.
+    </ResponseField>
+    <ResponseField name="latitude" type="number">
+      Latitude coordinate.
+    </ResponseField>
+    <ResponseField name="longitude" type="number">
+      Longitude coordinate.
+    </ResponseField>
+    <ResponseField name="openingHours" type="string">
+      Opening hours summary.
+    </ResponseField>
+    <ResponseField name="priceRange" type="string">
+      Price range indicator (e.g. "$$").
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="credits" type="integer">
+  Number of credits consumed by this request.
+</ResponseField>
+
+## Error Responses
+
+| Status Code | Description |
+|-------------|-------------|
+| `400` | Missing required query parameter `q` |
+| `401` | Invalid or missing API key |
+| `403` | Inactive account or expired subscription |
+| `429` | Credits exhausted or concurrent request limit reached |
+| `500` | Internal server error |
+
+## Limits / Notes
+
+- Each request costs **10 credits** regardless of result count.
+- Requests are subject to concurrent request limits based on your subscription plan.
+- Results depend on Google Maps data availability and query phrasing.
+- Localized output varies by `hl` language code.
+- `ll` biases results geographically but does not strictly limit them.
