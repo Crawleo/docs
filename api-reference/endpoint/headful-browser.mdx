@@ -1,0 +1,96 @@
+---
+title: "Headful Browser API"
+seoTitle: "Crawleo Headful Browser API - High-Fidelity Web Rendering"
+description: "High-fidelity browser-based crawling with screenshot, advanced output formats, and robust anti-bot evasion. Ideal for scraping sites requiring full browser context."
+api: "GET https://api.crawleo.dev/headful-browser"
+---
+
+## Overview
+
+The Headful Browser API provides high-fidelity crawling using a real browser (headful mode) with SOAX proxies. It is ideal for scraping sites that require full browser context, advanced anti-bot evasion, or screenshot capture.
+
+## Endpoint
+
+```
+GET https://api.crawleo.dev/headful-browser
+```
+
+## Parameters
+
+### Required Headers
+
+<ParamField header="x-api-key" type="string" required>
+  Your Crawleo API key for authentication.
+  
+  Example: `x-api-key: YOUR_API_KEY`
+</ParamField>
+
+### Required Parameters
+
+<ParamField query="urls" type="string" required>
+  One or more URLs to crawl. Accepts a comma-separated string or array.
+  
+  Example: `urls=https://example.com,https://example.org`
+</ParamField>
+
+### Optional Parameters
+
+<ParamField query="country" type="string">
+  ISO country code for proxy geolocation (e.g., `us`, `gb`).
+</ParamField>
+
+<ParamField query="output_format" type="string" default="raw_html">
+  Output format: `raw_html`, `enhanced_html`, `markdown`, `page_text`.
+</ParamField>
+
+<ParamField query="screenshot" type="boolean" default="false">
+  Set to `true` to capture a screenshot.
+</ParamField>
+
+## Example Request
+
+```bash cURL
+curl -X GET "https://api.crawleo.dev/headful-browser?urls=https://example.com&output_format=markdown&screenshot=true" \
+  -H "x-api-key: YOUR_API_KEY"
+```
+
+## Response
+
+A successful response returns an array of results:
+
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "url": "https://example.com",
+      "content": "<html>...</html>",
+      "raw_html": "...",
+      "enhanced_html": "...",
+      "markdown": "...",
+      "page_text": "...",
+      "screenshot": "https://...",
+      "blocked": false
+    }
+  ]
+}
+```
+
+<ResponseField name="data" type="array">
+  Array of result objects for each URL.
+  <Expandable title="Result object properties">
+    <ResponseField name="url" type="string">The crawled URL.</ResponseField>
+    <ResponseField name="content" type="string">Full HTML content.</ResponseField>
+    <ResponseField name="raw_html" type="string">Raw HTML (if requested).</ResponseField>
+    <ResponseField name="enhanced_html" type="string">Cleaned HTML (if requested).</ResponseField>
+    <ResponseField name="markdown" type="string">Markdown (if requested).</ResponseField>
+    <ResponseField name="page_text" type="string">Plain text (if requested).</ResponseField>
+    <ResponseField name="screenshot" type="string">Screenshot URL (if requested).</ResponseField>
+    <ResponseField name="blocked" type="boolean">Whether the crawl was blocked.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Notes
+- Use for sites requiring full browser context or advanced anti-bot evasion.
+- Each request costs **50 credits**.
+- For most static sites, use the standard Crawl API for lower cost.
