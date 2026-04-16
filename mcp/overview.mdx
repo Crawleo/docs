@@ -17,7 +17,7 @@ https://api.crawleo.dev/mcp
 
 ## Available Tools
 
-When connected via MCP, AI assistants have access to three tools:
+When connected via MCP, AI assistants have access to five tools:
 
 <CardGroup cols={3}>
   <Card title="search_web" icon="magnifying-glass">
@@ -30,10 +30,20 @@ When connected via MCP, AI assistants have access to three tools:
     
     **Cost:** 10 credits per request
   </Card>
+  <Card title="google_maps" icon="location-dot">
+    Search for businesses, places, and landmarks on Google Maps.
+    
+    **Cost:** 10 credits per request
+  </Card>
   <Card title="crawl_web" icon="spider-web">
     Crawl specific URLs and extract content.
     
     **Cost:** 1-10 credits per page
+  </Card>
+  <Card title="headful_browser" icon="browser">
+    Premium headed browser crawling with advanced anti-bot evasion. For sites that block standard crawlers.
+    
+    **Cost:** 50 credits per URL
   </Card>
 </CardGroup>
 
@@ -43,8 +53,14 @@ When connected via MCP, AI assistants have access to three tools:
 |------|-------------|
 | `search_web` | 10 credits per page |
 | `google_search` | 10 credits per request |
+| `google_maps` | 10 credits per request |
 | `crawl_web` (HTTP request) | 1 credit per URL |
 | `crawl_web` (browser rendering) | 10 credits per URL |
+| `headful_browser` | 50 credits per URL |
+
+<Tip>
+  The AI will automatically choose the right tool for your request. `headful_browser` is only invoked when a site blocks standard crawling — the AI tries `crawl_web` first to save credits.
+</Tip>
 
 <Card title="Credits & Pricing" icon="coins" href="/credits-pricing">
   View full pricing details and subscription plans.

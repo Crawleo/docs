@@ -1,13 +1,34 @@
 ---
 title: "Headful Browser API"
-seoTitle: "Crawleo Headful Browser API - High-Fidelity Web Rendering"
-description: "High-fidelity browser-based crawling with screenshot, advanced output formats, and robust anti-bot evasion. Ideal for scraping sites requiring full browser context."
+seoTitle: "Crawleo Headful Browser API - Anti-Bot Evasion & High-Fidelity Web Rendering"
+description: "Premium headed browser crawling with advanced anti-bot evasion, SOAX residential proxies, screenshot capture, and multiple output formats. Ideal for scraping Cloudflare, Akamai, and DataDome-protected sites."
 api: "GET https://api.crawleo.dev/headful-browser"
 ---
 
 ## Overview
 
-The Headful Browser API provides high-fidelity crawling using a real browser (headful mode) with SOAX proxies. It is ideal for scraping sites that require full browser context, advanced anti-bot evasion, or screenshot capture.
+The Headful Browser API provides high-fidelity crawling using a **real headed browser** running on dedicated GPU hardware with **SOAX residential proxies**. It uses advanced human-like behavior simulation to bypass bot-detection systems including Cloudflare, Akamai, DataDome, and PerimeterX.
+
+<Info>
+  **Cost:** 50 credits per URL. Always try the [Crawler API](/api-reference/endpoint/crawler) first — use the Headful Browser API only when standard crawling is blocked. Failed requests cost 0 credits.
+</Info>
+
+## When to Use Headful Browser
+
+<AccordionGroup>
+  <Accordion title="Sites with Bot Protection" icon="shield">
+    Use when a site is protected by Cloudflare, Akamai, DataDome, PerimeterX, or similar bot-detection systems that return CAPTCHA or empty responses to standard crawlers.
+  </Accordion>
+  <Accordion title="JavaScript-Heavy SPAs" icon="code">
+    For single-page applications that require full browser rendering including deferred JavaScript execution, not just basic JS rendering.
+  </Accordion>
+  <Accordion title="E-Commerce & Social Media" icon="cart-shopping">
+    Sites with aggressive fingerprinting (e.g., Amazon, LinkedIn, Instagram) that require a realistic browser fingerprint to return content.
+  </Accordion>
+  <Accordion title="Screenshot Capture" icon="camera">
+    Any time you need a visual screenshot of a page for verification or monitoring purposes.
+  </Accordion>
+</AccordionGroup>
 
 ## Endpoint
 
@@ -15,48 +36,104 @@ The Headful Browser API provides high-fidelity crawling using a real browser (he
 GET https://api.crawleo.dev/headful-browser
 ```
 
+**Cost:** 50 credits per URL
+
 ## Parameters
 
 ### Required Headers
 
 <ParamField header="x-api-key" type="string" required>
-  Your Crawleo API key for authentication.
-  
+  Your Crawleo API key for authentication. Alternatively, use `Authorization: Bearer YOUR_API_KEY`.
+
   Example: `x-api-key: YOUR_API_KEY`
 </ParamField>
 
 ### Required Parameters
 
 <ParamField query="urls" type="string" required>
-  One or more URLs to crawl. Accepts a comma-separated string or array.
-  
-  Example: `urls=https://example.com,https://example.org`
+  One or more URLs to crawl. Accepts a single URL or a comma-separated list.
+
+  Examples:
+  - `urls=https://example.com`
+  - `urls=https://example.com,https://example.org`
 </ParamField>
 
 ### Optional Parameters
 
-<ParamField query="country" type="string">
-  ISO country code for proxy geolocation (e.g., `us`, `gb`).
+<ParamField query="country" type="string" default="us">
+  ISO 3166-1 alpha-2 country code for residential proxy geolocation. Routes requests through a proxy server in the specified country.
+
+  Supported values: `us`, `gb`, `de`, `fr`, `jp`, `in`, `br`, `ca`, `au`, and more.
 </ParamField>
 
-<ParamField query="output_format" type="string" default="raw_html">
-  Output format: `raw_html`, `enhanced_html`, `markdown`, `page_text`.
+<ParamField query="output_format" type="string" default="markdown">
+  Output format for the crawled page content.
+
+  | Value | Description | Best For |
+  |-------|-------------|----------|
+  | `markdown` | Structured markdown (default) | LLMs, RAG pipelines |
+  | `enhanced_html` | Clean HTML without ads/scripts | Processing pipelines |
+  | `raw_html` | Complete original HTML source | Full content preservation |
+  | `page_text` | Plain extracted text | Simple text extraction |
 </ParamField>
 
 <ParamField query="screenshot" type="boolean" default="false">
-  Set to `true` to capture a screenshot.
+  Set to `true` to capture a full-page screenshot of the rendered page. Screenshot is returned as a URL.
 </ParamField>
 
-## Example Request
+## Example Requests
+
+### Basic Usage
+
+<CodeGroup>
 
 ```bash cURL
-curl -X GET "https://api.crawleo.dev/headful-browser?urls=https://example.com&output_format=markdown&screenshot=true" \
+curl -X GET "https://api.crawleo.dev/headful-browser?urls=https://example.com&output_format=markdown" \
+  -H "x-api-key: YOUR_API_KEY"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.crawleo.dev/headful-browser",
+    params={
+        "urls": "https://example.com",
+        "output_format": "markdown"
+    },
+    headers={
+        "x-api-key": "YOUR_API_KEY"
+    }
+)
+data = response.json()
+print(data)
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.crawleo.dev/headful-browser?urls=https://example.com&output_format=markdown",
+  {
+    headers: {
+      "x-api-key": "YOUR_API_KEY"
+    }
+  }
+);
+const data = await response.json();
+console.log(data);
+```
+
+</CodeGroup>
+
+### With Screenshot & Geo-Routing
+
+```bash cURL
+curl -X GET "https://api.crawleo.dev/headful-browser?urls=https://example.com&output_format=markdown&screenshot=true&country=gb" \
   -H "x-api-key: YOUR_API_KEY"
 ```
 
 ## Response
 
-A successful response returns an array of results:
+A successful response returns an array of results for each URL:
 
 ```json
 {
@@ -64,33 +141,68 @@ A successful response returns an array of results:
   "data": [
     {
       "url": "https://example.com",
-      "content": "<html>...</html>",
-      "raw_html": "...",
-      "enhanced_html": "...",
-      "markdown": "...",
-      "page_text": "...",
-      "screenshot": "https://...",
+      "markdown": "# Example Domain\n\nThis domain is for use in illustrative examples...",
+      "raw_html": "<!DOCTYPE html>...",
+      "enhanced_html": "<html>...",
+      "page_text": "Example Domain\nThis domain is for use...",
+      "screenshot": "https://storage.crawleo.dev/screenshots/abc123.png",
       "blocked": false
     }
-  ]
+  ],
+  "credits_used": 50,
+  "credits_remaining": 49950
 }
 ```
 
+<ResponseField name="status" type="string">
+  `"success"` on a successful response.
+</ResponseField>
+
 <ResponseField name="data" type="array">
-  Array of result objects for each URL.
+  Array of result objects, one per URL.
   <Expandable title="Result object properties">
     <ResponseField name="url" type="string">The crawled URL.</ResponseField>
-    <ResponseField name="content" type="string">Full HTML content.</ResponseField>
-    <ResponseField name="raw_html" type="string">Raw HTML (if requested).</ResponseField>
-    <ResponseField name="enhanced_html" type="string">Cleaned HTML (if requested).</ResponseField>
-    <ResponseField name="markdown" type="string">Markdown (if requested).</ResponseField>
-    <ResponseField name="page_text" type="string">Plain text (if requested).</ResponseField>
-    <ResponseField name="screenshot" type="string">Screenshot URL (if requested).</ResponseField>
-    <ResponseField name="blocked" type="boolean">Whether the crawl was blocked.</ResponseField>
+    <ResponseField name="markdown" type="string">Markdown content (if `output_format=markdown`).</ResponseField>
+    <ResponseField name="raw_html" type="string">Raw HTML source (if `output_format=raw_html`).</ResponseField>
+    <ResponseField name="enhanced_html" type="string">Cleaned HTML (if `output_format=enhanced_html`).</ResponseField>
+    <ResponseField name="page_text" type="string">Plain text content (if `output_format=page_text`).</ResponseField>
+    <ResponseField name="screenshot" type="string">URL to the captured screenshot image (if `screenshot=true`).</ResponseField>
+    <ResponseField name="blocked" type="boolean">Whether the crawl was ultimately blocked. Failed/blocked requests cost 0 credits.</ResponseField>
   </Expandable>
 </ResponseField>
 
-## Notes
-- Use for sites requiring full browser context or advanced anti-bot evasion.
-- Each request costs **50 credits**.
-- For most static sites, use the standard Crawl API for lower cost.
+<ResponseField name="credits_used" type="integer">
+  Number of credits consumed by this request (50 per successful URL).
+</ResponseField>
+
+<ResponseField name="credits_remaining" type="integer">
+  Credits remaining in your monthly allowance after this request.
+</ResponseField>
+
+## MCP Usage
+
+The `headful_browser` tool is available when using Crawleo via MCP. AI assistants automatically use it when standard crawling fails:
+
+```
+headful_browser(url="https://protected-site.com", output_format="markdown", country="us")
+```
+
+The MCP tool accepts a **single URL** (not a comma-separated list). For multiple pages, call the tool once per URL.
+
+<Card title="MCP Integration" icon="plug" href="/mcp/overview">
+  Connect AI assistants like Claude, Cursor, and GitHub Copilot to Crawleo via MCP.
+</Card>
+
+## Error Handling
+
+| HTTP Status | Meaning |
+|-------------|---------|
+| `200` | Success — content returned |
+| `400` | Invalid parameters (missing `urls`, invalid format) |
+| `401` | Invalid or missing API key |
+| `429` | Credits exhausted or concurrent request limit reached |
+| `500` | Headful browser service unavailable |
+
+<Note>
+  If the headful browser service is temporarily unavailable, you will receive a `500` response. No credits are charged for failed requests.
+</Note>

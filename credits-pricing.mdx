@@ -50,6 +50,22 @@ Structured Google SERP data for SEO, lead generation, and competitor research.
   Use browser rendering (`render_js=true`) only for JavaScript-heavy sites that require dynamic content. Default HTTP requests are the most cost-effective.
 </Tip>
 
+### Headful Browser API
+
+Premium crawling using a real headed browser with advanced anti-bot evasion, dedicated GPU rendering, and SOAX residential proxies.
+
+| Operation | Credits Cost |
+|-----------|-------------|
+| Headful browser request (per URL) | **50 credits** |
+
+<Info>
+  The Headful Browser API is designed for sites protected by Cloudflare, Akamai, DataDome, or other advanced bot-detection systems where the standard Crawl API is insufficient.
+</Info>
+
+<Warning>
+  At 50 credits per URL, use the Headful Browser API only when necessary. Always try the standard Crawl API (`render_js=false` or `render_js=true`) first. Failed requests cost **0 credits**.
+</Warning>
+
 ## Subscription Plans
 
 <CardGroup cols={2}>
@@ -123,14 +139,24 @@ Structured Google SERP data for SEO, lead generation, and competitor research.
 | 5 pages, HTTP only | `urls=url1,url2,url3,url4,url5` | 5 credits |
 | 5 pages, with JS rendering | `urls=url1,url2,url3,url4,url5&render_js=true` | 50 credits |
 
+### Headful Browser API Examples
+
+| Use Case | Parameters | Credits Used |
+|----------|------------|---------------|
+| Crawl a protected site | `urls=https://protected-site.com` | 50 credits |
+| With screenshot | `urls=https://protected-site.com&screenshot=true` | 50 credits |
+| With country proxy | `urls=https://protected-site.com&country=gb` | 50 credits |
+
 When using Crawleo via MCP (Model Context Protocol), the same credit costs apply:
 
 | MCP Tool | Credits Cost |
 |----------|---------------|
 | `search_web` | 10 credits per page |
 | `google_search` | 10 credits per request |
+| `google_maps` | 10 credits per request |
 | `crawl_web` (HTTP request) | 1 credit per URL |
 | `crawl_web` (browser rendering) | 10 credits per URL |
+| `headful_browser` | 50 credits per URL |
 
 ## Response Fields
 

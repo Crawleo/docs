@@ -35,7 +35,7 @@
     },
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
             "group": "Getting Started",
@@ -44,6 +44,27 @@
               "quickstart",
               "authentication",
               "credits-pricing"
+            ]
+          },
+          {
+            "group": "API Overview",
+            "pages": [
+              "api-reference/introduction"
+            ]
+          },
+          {
+            "group": "Search APIs",
+            "pages": [
+              "api-reference/endpoint/search",
+              "api-reference/endpoint/google-search",
+              "api-reference/endpoint/google-maps"
+            ]
+          },
+          {
+            "group": "Crawling APIs",
+            "pages": [
+              "api-reference/endpoint/crawler",
+              "api-reference/endpoint/headful-browser"
             ]
           },
           {
@@ -67,31 +88,6 @@
             "group": "Integrations",
             "pages": [
               "integrations/langchain"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API Reference",
-        "groups": [
-          {
-            "group": "Overview",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Search",
-            "pages": [
-              "api-reference/endpoint/search",
-              "api-reference/endpoint/google-search",
-              "api-reference/endpoint/google-maps"
-            ]
-          },
-          {
-            "group": "Crawling",
-            "pages": [
-              "api-reference/endpoint/crawler"
             ]
           }
         ]
