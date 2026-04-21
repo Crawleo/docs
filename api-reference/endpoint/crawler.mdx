@@ -246,17 +246,16 @@ A successful response returns crawled content for each URL:
 
 ```json
 {
-  "success": true,
   "results": [
     {
       "url": "https://example.com",
-      "status": 200,
+      "status_code": 200,
       "markdown": "# Example Domain\n\nThis domain is for use in illustrative examples...",
-      "raw_html": "<!DOCTYPE html><html>...</html>"
+      "enhanced_html": "<html>...</html>"
     }
   ],
-  "credits_used": 1,
-  "credits_remaining": 9999
+  "credits": 1,
+  "successful_pages": 1
 }
 ```
 
@@ -267,7 +266,7 @@ A successful response returns crawled content for each URL:
     <ResponseField name="url" type="string">
       The crawled URL.
     </ResponseField>
-    <ResponseField name="status" type="integer">
+    <ResponseField name="status_code" type="integer">
       HTTP status code of the crawled page.
     </ResponseField>
     <ResponseField name="raw_html" type="string">
@@ -291,15 +290,15 @@ A successful response returns crawled content for each URL:
   </Expandable>
 </ResponseField>
 
-<ResponseField name="credits_used" type="integer">
+<ResponseField name="credits" type="integer">
   Number of credits consumed by this request. Varies based on rendering:
   - HTTP request (render_js=false): 1 credit per URL
   - Browser rendering (render_js=true): 10 credits per URL
   - Failed requests: 0 credits
 </ResponseField>
 
-<ResponseField name="credits_remaining" type="integer">
-  Your remaining credit balance for the current billing period.
+<ResponseField name="successful_pages" type="integer">
+  Number of URLs that were successfully crawled.
 </ResponseField>
 
 ## Use Cases
