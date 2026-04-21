@@ -19,7 +19,7 @@ The Google Maps API lets you search for businesses, places, landmarks, and locat
 GET https://api.crawleo.dev/google-maps
 ```
 
-**Cost:** 10 credits per request
+**Cost:** 30 credits per request
 
 ## Parameters
 
@@ -228,27 +228,34 @@ A successful response returns structured place data:
 ```json
 {
   "parameters": {
-    "q": "restaurants in Paris",
-    "hl": "fr"
+    "q": "coffee in Paris",
+    "num": 10,
+    "page": 1
   },
   "google_maps_results": [
     {
-      "title": "Le Comptoir du Panthéon",
-      "address": "5 Rue Soufflot, 75005 Paris",
-      "rating": 4.3,
-      "ratingCount": 2541,
-      "phone": "+33 1 43 54 75 56",
-      "website": "https://example.com",
-      "category": "French Restaurant",
-      "placeId": "ChIJLU7jZClu5kcR4PcOOO6p3I0",
-      "cid": "10311848498909477344",
-      "latitude": 48.8462,
-      "longitude": 2.3464,
-      "openingHours": "12:00 PM – 11:00 PM",
-      "priceRange": "$$"
+      "position": 1,
+      "title": "Terres de Café",
+      "address": "150 Rue Saint-Honoré, 75001 Paris, France",
+      "rating": 4.7,
+      "ratingCount": 1213,
+      "priceLevel": "€1–10",
+      "type": "Coffee shop",
+      "types": ["Coffee shop", "Cafe"],
+      "website": "http://www.terresdecafe.com/",
+      "phoneNumber": "+33 9 86 51 02 00",
+      "openingHours": {
+        "Monday": "8 AM–7 PM",
+        "Tuesday": "8 AM–7 PM"
+      },
+      "thumbnailUrl": "https://lh3.googleusercontent.com/...",
+      "latitude": 48.8620039,
+      "longitude": 2.3403462,
+      "placeId": "ChIJ-UiBUYlv5kcRWrWf7RBf4V4",
+      "cid": "6836850235635905882"
     }
   ],
-  "credits": 10
+  "credits": 30
 }
 ```
 
@@ -262,6 +269,9 @@ A successful response returns structured place data:
   Array of place result objects.
 
   <Expandable title="Place result properties">
+    <ResponseField name="position" type="integer">
+      Ranking position in the results list.
+    </ResponseField>
     <ResponseField name="title" type="string">
       Name of the place or business.
     </ResponseField>
@@ -269,19 +279,25 @@ A successful response returns structured place data:
       Full street address.
     </ResponseField>
     <ResponseField name="rating" type="number">
-      Average user rating (e.g. 4.3).
+      Average user rating (e.g. 4.7).
     </ResponseField>
     <ResponseField name="ratingCount" type="integer">
       Total number of user ratings.
     </ResponseField>
-    <ResponseField name="phone" type="string">
+    <ResponseField name="phoneNumber" type="string">
       Phone number of the business.
     </ResponseField>
     <ResponseField name="website" type="string">
       Website URL.
     </ResponseField>
-    <ResponseField name="category" type="string">
-      Business or place category (e.g. "French Restaurant").
+    <ResponseField name="type" type="string">
+      Primary business or place category (e.g. "Coffee shop").
+    </ResponseField>
+    <ResponseField name="types" type="array">
+      All categories associated with the place.
+    </ResponseField>
+    <ResponseField name="priceLevel" type="string">
+      Price range indicator (e.g. "€1–10" or "$$").
     </ResponseField>
     <ResponseField name="placeId" type="string">
       Google Place ID.
@@ -295,17 +311,17 @@ A successful response returns structured place data:
     <ResponseField name="longitude" type="number">
       Longitude coordinate.
     </ResponseField>
-    <ResponseField name="openingHours" type="string">
-      Opening hours summary.
+    <ResponseField name="openingHours" type="object">
+      Opening hours keyed by day of week (e.g. `{"Monday": "8 AM–7 PM"}`).
     </ResponseField>
-    <ResponseField name="priceRange" type="string">
-      Price range indicator (e.g. "$$").
+    <ResponseField name="thumbnailUrl" type="string">
+      URL of the place thumbnail image.
     </ResponseField>
   </Expandable>
 </ResponseField>
 
 <ResponseField name="credits" type="integer">
-  Number of credits consumed by this request.
+  Number of credits consumed by this request (30 per request).
 </ResponseField>
 
 ## Error Responses
@@ -320,7 +336,7 @@ A successful response returns structured place data:
 
 ## Limits / Notes
 
-- Each request costs **10 credits** regardless of result count.
+- Each request costs **30 credits** regardless of result count.
 - Requests are subject to concurrent request limits based on your subscription plan.
 - Results depend on Google Maps data availability and query phrasing.
 - Localized output varies by `hl` language code.
