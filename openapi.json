@@ -37,52 +37,33 @@
       "SearchResponse": {
         "type": "object",
         "properties": {
-          "status": {
+          "query": {
             "type": "string",
-            "example": "success",
-            "description": "Status of the response (success or error)"
+            "example": "machine learning",
+            "description": "The search query that was executed"
           },
-          "data": {
+          "pages_fetched": {
+            "type": "integer",
+            "example": 1,
+            "description": "Number of pages fetched from the search engine"
+          },
+          "pages": {
             "type": "object",
-            "properties": {
-              "query": {
-                "type": "string",
-                "example": "machine learning",
-                "description": "The search query that was executed"
-              },
-              "pages_fetched": {
-                "type": "integer",
-                "example": 1,
-                "description": "Number of pages fetched from the search engine"
-              },
-              "time_used": {
-                "type": "number",
-                "example": 1.2119622230529785,
-                "description": "Time taken to complete the request in seconds"
-              },
-              "pages": {
-                "type": "object",
-                "description": "Object containing results keyed by page number"
-              },
-              "credits": {
-                "type": "integer",
-                "example": 10,
-                "description": "Credits used for this request"
-              }
-            }
+            "description": "Object containing results keyed by page number"
+          },
+          "credits": {
+            "type": "integer",
+            "example": 10,
+            "description": "Credits used for this request"
           }
         }
       },
       "CrawlResponse": {
         "type": "object",
         "properties": {
-          "status": {
-            "type": "string",
-            "example": "success",
-            "description": "Status of the response (success or error)"
-          },
-          "data": {
+          "results": {
             "type": "array",
+            "description": "Array of crawl result objects",
             "items": {
               "type": "object",
               "properties": {
@@ -90,9 +71,9 @@
                   "type": "string",
                   "description": "The URL that was crawled"
                 },
-                "status_code": {
+                "status": {
                   "type": "integer",
-                  "description": "HTTP status code"
+                  "description": "HTTP status code of the crawled page"
                 },
                 "raw_html": {
                   "type": "string",
@@ -113,17 +94,21 @@
                 "screenshot": {
                   "type": "string",
                   "description": "Base64 encoded screenshot (if requested)"
+                },
+                "error": {
+                  "type": "string",
+                  "description": "Error message if the crawl failed for this URL"
                 }
               }
             }
           },
-          "credits_used": {
+          "credits": {
             "type": "integer",
             "description": "Total credits used for this request"
           },
-          "credits_remaining": {
+          "successful_pages": {
             "type": "integer",
-            "description": "Remaining credits after this request"
+            "description": "Number of URLs successfully crawled"
           }
         }
       },
@@ -158,9 +143,13 @@
                 "type": "string",
                 "description": "The search query"
               },
-              "hl": {
-                "type": "string",
-                "description": "Language code used"
+              "num": {
+                "type": "integer",
+                "description": "Number of results per page"
+              },
+              "page": {
+                "type": "integer",
+                "description": "Page number of results"
               }
             }
           },
@@ -170,6 +159,10 @@
             "items": {
               "type": "object",
               "properties": {
+                "position": {
+                  "type": "integer",
+                  "description": "Ranking position in the results list"
+                },
                 "title": {
                   "type": "string",
                   "description": "Name of the place or business"
@@ -180,13 +173,13 @@
                 },
                 "rating": {
                   "type": "number",
-                  "description": "Average user rating (e.g. 4.3)"
+                  "description": "Average user rating (e.g. 4.7)"
                 },
                 "ratingCount": {
                   "type": "integer",
                   "description": "Total number of user ratings"
                 },
-                "phone": {
+                "phoneNumber": {
                   "type": "string",
                   "description": "Phone number of the business"
                 },
@@ -194,9 +187,18 @@
                   "type": "string",
                   "description": "Website URL of the business"
                 },
-                "category": {
+                "type": {
                   "type": "string",
-                  "description": "Business or place category"
+                  "description": "Primary business or place category"
+                },
+                "types": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "description": "All categories associated with the place"
+                },
+                "priceLevel": {
+                  "type": "string",
+                  "description": "Price range indicator (e.g. €1–10)"
                 },
                 "placeId": {
                   "type": "string",
@@ -215,19 +217,19 @@
                   "description": "Longitude coordinate of the place"
                 },
                 "openingHours": {
-                  "type": "string",
-                  "description": "Opening hours summary"
+                  "type": "object",
+                  "description": "Opening hours keyed by day of week"
                 },
-                "priceRange": {
+                "thumbnailUrl": {
                   "type": "string",
-                  "description": "Price range indicator (e.g. $$)"
+                  "description": "URL of the place thumbnail image"
                 }
               }
             }
           },
           "credits": {
             "type": "integer",
-            "example": 10,
+            "example": 30,
             "description": "Credits used for this request"
           }
         }
@@ -382,27 +384,23 @@
                   "$ref": "#/components/schemas/SearchResponse"
                 },
                 "example": {
-                  "status": "success",
-                  "data": {
-                    "query": "machine learning",
-                    "pages_fetched": 1,
-                    "time_used": 1.2119622230529785,
-                    "pages": {
-                      "1": {
-                        "total_results": "About 1,230,000 results",
-                        "search_results": [
-                          {
-                            "title": "Machine Learning - Wikipedia",
-                            "link": "https://en.wikipedia.org/wiki/Machine_learning",
-                            "date": null,
-                            "snippet": "Machine learning is a branch of artificial intelligence...",
-                            "source": "Wikipedia"
-                          }
-                        ]
-                      }
-                    },
-                    "credits": 10
-                  }
+                  "query": "machine learning",
+                  "pages_fetched": 1,
+                  "pages": {
+                    "1": {
+                      "total_results": "About 1,230,000 results",
+                      "search_results": [
+                        {
+                          "title": "Machine Learning - Wikipedia",
+                          "link": "https://en.wikipedia.org/wiki/Machine_learning",
+                          "date": null,
+                          "snippet": "Machine learning is a branch of artificial intelligence...",
+                          "source": "Wikipedia"
+                        }
+                      ]
+                    }
+                  },
+                  "credits": 10
                 }
               }
             }
@@ -527,7 +525,7 @@
                       "priceRange": "$$"
                     }
                   ],
-                  "credits": 10
+                  "credits": 30
                 }
               }
             }
@@ -691,8 +689,7 @@
                   "$ref": "#/components/schemas/CrawlResponse"
                 },
                 "example": {
-                  "status": "success",
-                  "data": [
+                  "results": [
                     {
                       "url": "https://example.com",
                       "status_code": 200,
@@ -700,8 +697,8 @@
                       "markdown": "# Example Domain\n\nThis domain is for use in examples..."
                     }
                   ],
-                  "credits_used": 1,
-                  "credits_remaining": 999
+                  "credits": 1,
+                  "successful_pages": 1
                 }
               }
             }
