@@ -109,7 +109,7 @@ response = requests.get(
 )
 
 data = response.json()
-results = data["google search results"]
+results = data["google_search_results"]
 for r in results:
     print(r["title"], r["link"])
 ```
@@ -128,7 +128,7 @@ const response = await fetch(
 );
 
 const data = await response.json();
-console.log(data["google search results"]);
+console.log(data["google_search_results"]);
 ```
 
 </CodeGroup>
@@ -251,11 +251,10 @@ A successful response returns structured SERP data:
     "q": "best CRM software",
     "gl": "us",
     "hl": "en",
-    "type": "search",
     "num": 10,
     "page": 1
   },
-  "google search results": [
+  "google_search_results": [
     {
       "title": "Result Title",
       "link": "https://example.com",
@@ -290,7 +289,7 @@ A successful response returns structured SERP data:
   Echo of the query parameters used for this request.
 </ResponseField>
 
-<ResponseField name="google search results" type="array">
+<ResponseField name="google_search_results" type="array">
   Array of organic search result objects.
 
   <Expandable title="Search result properties">
